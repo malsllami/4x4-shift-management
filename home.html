@@ -71,13 +71,14 @@
     <!-- ─── البطاقة الشخصية ─── -->
     <div class="emp-hero-card" id="emp-hero-card">
       <div class="emp-hero-bg" id="emp-hero-bg"></div>
-      <div class="emp-hero-body">
+      <div class="emp-hero-body" id="emp-hero-body">
         <div class="emp-hero-avatar" id="emp-hero-avatar">م</div>
         <div class="emp-hero-info">
           <h2 class="emp-hero-name" id="emp-hero-name">—</h2>
           <div class="emp-hero-meta">
             <span class="emp-hero-id">🪪 <span id="emp-hero-id">—</span></span>
             <span class="shift-badge" id="emp-hero-shift">—</span>
+            <span class="emp-hero-phone" id="emp-hero-phone">📱 —</span>
           </div>
         </div>
         <button class="btn-card-edit" id="btn-edit-basic">✏️ تعديل</button>
@@ -190,11 +191,18 @@
         <div class="edit-grid-2">
           <div class="form-group">
             <label class="form-label">المنطقة</label>
-            <input type="text" class="form-control" id="ei-region" placeholder="مثال: الرياض" />
+            <select class="form-control form-select" id="ei-region">
+              <option value="">— اختر المنطقة —</option>
+              <option value="شمال">شمال</option>
+              <option value="جنوب">جنوب</option>
+              <option value="وسط">وسط</option>
+              <option value="غرب">غرب</option>
+              <option value="شرق">شرق</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-label">المركز</label>
-            <input type="text" class="form-control" id="ei-center" placeholder="مثال: مركز الشمال" />
+            <input type="text" class="form-control" id="ei-center" placeholder="اسم المركز" />
           </div>
         </div>
         <div class="edit-actions">
@@ -326,10 +334,55 @@
 
   <!-- ══ تقويم الورديات ══ -->
   <section id="section-calendar" class="page-section">
-    <div class="section-header"><h1 class="section-title">تقويم الورديات</h1></div>
-    <div class="placeholder-card">
-      <div class="placeholder-icon">📅</div>
-      <p>سيُضاف تقويم الورديات هنا</p>
+    <div class="section-header">
+      <h1 class="section-title">تقويم الورديات</h1>
+    </div>
+
+    <!-- لقطة اليوم: حالة جميع الورديات -->
+    <div class="info-card">
+      <div class="info-card-head">
+        <span class="info-card-icon">📋</span>
+        <h3 class="info-card-title">حالة الورديات اليوم</h3>
+        <span class="today-date-label" id="cal-today-label">—</span>
+      </div>
+      <div class="shifts-today-grid" id="shifts-today-grid"></div>
+    </div>
+
+    <!-- التقويم الشهري -->
+    <div class="info-card">
+      <div class="info-card-head">
+        <span class="info-card-icon">🗓️</span>
+        <h3 class="info-card-title">جدولي الشهري</h3>
+        <span class="shift-badge shift-a" id="cal-shift-label">وردية أ</span>
+      </div>
+
+      <!-- شريط التنقل -->
+      <div class="cal-nav-bar">
+        <button class="cal-nav-btn" id="cal-prev" title="الشهر السابق">&#8592;</button>
+        <span class="cal-month-title" id="cal-month-title">—</span>
+        <button class="cal-nav-btn" id="cal-next" title="الشهر التالي">&#8594;</button>
+      </div>
+
+      <!-- شبكة التقويم -->
+      <div class="cal-outer">
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+
+      <!-- مفتاح الألوان -->
+      <div class="cal-legend">
+        <div class="cal-legend-item">
+          <span class="cal-dot cal-morning"></span>
+          <span>دوام صباح <small>7ص — 7م</small></span>
+        </div>
+        <div class="cal-legend-item">
+          <span class="cal-dot cal-evening"></span>
+          <span>دوام مساء <small>7م — 7ص</small></span>
+        </div>
+        <div class="cal-legend-item">
+          <span class="cal-dot cal-rest"></span>
+          <span>راحة</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -384,22 +437,18 @@ const SHIFT_COLORS  = { 'أ':'#2563eb','ب':'#0d9488','ج':'#15803d','د':'#7c3a
    ════════════════════════════════════════════════ */
 
 const SIZES_ITEMS = [
-  { key:'shirt',  label:'قميص'      },
-  { key:'pants',  label:'بنطلون'    },
-  { key:'jacket', label:'جاكيت'     },
-  { key:'shoes',  label:'حذاء'      },
-  { key:'cap',    label:'قبعة'      },
-  { key:'vest',   label:'سترة أمان' },
+  { key:'shirt_cat2',  label:'قميص CAT 2'    },
+  { key:'pants_cat2',  label:'بنطلون CAT 2'  },
+  { key:'safety_shoes',label:'سيفتي شوز'     },
+  { key:'cat4',        label:'CAT 4'          },
+  { key:'bravo',       label:'برافو'          },
+  { key:'major',       label:'ميجر'           },
+  { key:'tools',       label:'عدة مفكات'     },
 ];
 
 const LEAVES_DEF = [
-  { key:'annual',    label:'إجازة سنوية',    unit:'يوم'  },
-  { key:'sick',      label:'إجازة مرضية',    unit:'يوم'  },
-  { key:'marriage',  label:'إجازة زواج',     unit:'يوم'  },
-  { key:'birth',     label:'إجازة ولادة',    unit:'يوم'  },
-  { key:'death',     label:'إجازة وفاة',     unit:'يوم'  },
-  { key:'exam',      label:'إجازة امتحان',   unit:'يوم'  },
-  { key:'shiftSwap', label:'تبادل ورديات',   unit:'مرة'  },
+  { key:'annual',    label:'إجازة سنوية',  unit:'يوم', note:''                    },
+  { key:'scheduled', label:'إجازة مجدولة', unit:'يوم', note:'يدخلها المشرف'       },
 ];
 
 function loadData() {
@@ -481,6 +530,8 @@ function renderHero() {
   shEl.textContent = 'وردية ' + (d.shift||'');
   shEl.className   = 'shift-badge ' + sc;
 
+  document.getElementById('emp-hero-phone').textContent = d.phone ? '📱 ' + d.phone : '📱 —';
+
   document.getElementById('emp-hero-bg').style.background =
     `linear-gradient(135deg, ${col}ee 0%, ${col}88 100%)`;
   document.getElementById('emp-hero-avatar').style.color = col;
@@ -557,8 +608,8 @@ function buildSizesEdit() {
 function renderLeaves() {
   document.getElementById('leaves-grid-view').innerHTML = LEAVES_DEF.map(l =>
     `<div class="leave-item">
-       <span class="leave-label">${l.label}</span>
-       <span class="leave-val">${DATA.leaves[l.key] || '0'} ${l.unit}</span>
+       <span class="leave-label">${l.label}${l.note ? `<span class="leave-note">${l.note}</span>` : ''}</span>
+       <span class="leave-val">${DATA.leaves[l.key] || '0'} <small>${l.unit}</small></span>
      </div>`
   ).join('');
 }
@@ -627,28 +678,23 @@ function closeEdit(viewId, editId) {
 
 /* ── البيانات الأساسية ── */
 document.getElementById('btn-edit-basic').addEventListener('click', () => {
-  document.getElementById('ei-name').value   = DATA.name;
-  document.getElementById('ei-empId').value  = DATA.empId;
-  document.getElementById('ei-phone').value  = DATA.phone;
-  document.getElementById('ei-shift').value  = DATA.shift;
+  document.getElementById('ei-name').value  = DATA.name;
+  document.getElementById('ei-empId').value = DATA.empId;
+  document.getElementById('ei-phone').value = DATA.phone;
+  document.getElementById('ei-shift').value = DATA.shift;
   openEdit('emp-hero-body', 'edit-zone-basic');
-  document.querySelector('.emp-hero-body').classList.add('d-none');
-  document.getElementById('edit-zone-basic').classList.remove('d-none');
 });
 document.getElementById('save-basic').addEventListener('click', () => {
   DATA.name  = document.getElementById('ei-name').value.trim();
   DATA.phone = document.getElementById('ei-phone').value.trim();
   DATA.shift = document.getElementById('ei-shift').value;
   saveData(DATA);
-  document.querySelector('.emp-hero-body').classList.remove('d-none');
-  document.getElementById('edit-zone-basic').classList.add('d-none');
+  closeEdit('emp-hero-body', 'edit-zone-basic');
   renderAll();
   showToast('تم حفظ البيانات الأساسية ✓');
 });
-document.getElementById('cancel-basic').addEventListener('click', () => {
-  document.querySelector('.emp-hero-body').classList.remove('d-none');
-  document.getElementById('edit-zone-basic').classList.add('d-none');
-});
+document.getElementById('cancel-basic').addEventListener('click', () =>
+  closeEdit('emp-hero-body', 'edit-zone-basic'));
 
 /* ── تواريخ البطاقات ── */
 document.getElementById('btn-edit-expiry').addEventListener('click', () => {
@@ -749,6 +795,7 @@ function navigateTo(sectionId) {
     .forEach(a => a.classList.add('active'));
   closeMobileNav();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (sectionId === 'calendar') setTimeout(initCalendar, 30);
 }
 document.querySelectorAll('.nav-link[data-section]').forEach(link =>
   link.addEventListener('click', e => { e.preventDefault(); navigateTo(link.dataset.section); }));
@@ -779,7 +826,123 @@ document.getElementById('logout-btn').addEventListener('click', () => Auth.logou
 document.getElementById('mob-logout-btn').addEventListener('click', () => Auth.logout());
 
 /* ════════════════════════════════════════════════
-   9. التهيئة الأولية
+   9. تقويم الورديات
+   ════════════════════════════════════════════════ */
+
+/* المرجع: يوم 16/6/2026 هو أول يوم دورة وردية (أ) */
+const CAL_REF  = new Date('2026-06-16T00:00:00');
+const CAL_OFFS = { 'أ':0, 'ب':2, 'ج':4, 'د':6 };
+
+const CYCLE = [
+  { type:'morning', label:'صباح', sub:'اليوم الأول',  time:'7ص — 7م' },
+  { type:'morning', label:'صباح', sub:'اليوم الثاني', time:'7ص — 7م' },
+  { type:'evening', label:'مساء', sub:'اليوم الأول',  time:'7م — 7ص' },
+  { type:'evening', label:'مساء', sub:'اليوم الثاني', time:'7م — 7ص' },
+  { type:'rest',    label:'راحة', sub:'اليوم الأول',  time:''        },
+  { type:'rest',    label:'راحة', sub:'اليوم الثاني', time:''        },
+  { type:'rest',    label:'راحة', sub:'اليوم الثالث', time:''        },
+  { type:'rest',    label:'راحة', sub:'آخر يوم',      time:''        },
+];
+
+const AR_DAYS_SHORT = ['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+const AR_MONTHS     = ['يناير','فبراير','مارس','أبريل','مايو','يونيو',
+                        'يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+function cyclePos(date, shift) {
+  const off  = CAL_OFFS[shift] ?? 0;
+  const days = Math.round((date - CAL_REF) / 86400000);
+  return ((days - off) % 8 + 8) % 8;
+}
+
+function shiftInfo(date, shift) { return CYCLE[cyclePos(date, shift)]; }
+
+let calYear, calMonth, calReady = false;
+
+function initCalendar() {
+  if (calReady) { renderCalGrid(); return; }
+  const now = new Date();
+  calYear   = now.getFullYear();
+  calMonth  = now.getMonth();
+  calReady  = true;
+
+  renderTodayAll();
+  renderCalGrid();
+
+  document.getElementById('cal-prev').addEventListener('click', () => {
+    calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalGrid();
+  });
+  document.getElementById('cal-next').addEventListener('click', () => {
+    calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalGrid();
+  });
+}
+
+/* ── لقطة اليوم (الأربع ورديات) ── */
+function renderTodayAll() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById('cal-today-label').textContent =
+    today.toLocaleDateString('ar-SA', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  const empShift = DATA.shift || user.shift || 'أ';
+  const html = ['أ','ب','ج','د'].map(sh => {
+    const info = shiftInfo(today, sh);
+    const sc   = SHIFT_CLASSES[sh] || 'shift-a';
+    const mine = sh === empShift;
+    return `
+      <div class="sday-card ${mine ? 'sday-mine' : ''}">
+        <div class="sday-head">
+          <span class="shift-badge ${sc}">وردية ${sh}</span>
+          ${mine ? '<span class="me-tag">أنا</span>' : ''}
+        </div>
+        <div class="sday-type sday-${info.type}">${info.label}</div>
+        <div class="sday-sub">${info.sub}</div>
+        ${info.time ? `<div class="sday-time">⏰ ${info.time}</div>` : '<div class="sday-time" style="opacity:0">—</div>'}
+      </div>`;
+  }).join('');
+  document.getElementById('shifts-today-grid').innerHTML = html;
+}
+
+/* ── التقويم الشهري ── */
+function renderCalGrid() {
+  const empShift = DATA.shift || user.shift || 'أ';
+  const sc = SHIFT_CLASSES[empShift] || 'shift-a';
+
+  const label = document.getElementById('cal-shift-label');
+  label.textContent = 'وردية ' + empShift;
+  label.className   = 'shift-badge ' + sc;
+
+  document.getElementById('cal-month-title').textContent =
+    AR_MONTHS[calMonth] + ' ' + calYear;
+
+  const today    = new Date(); today.setHours(0,0,0,0);
+  const firstDay = new Date(calYear, calMonth, 1);
+  const lastDate = new Date(calYear, calMonth + 1, 0).getDate();
+  const startDow = firstDay.getDay();
+
+  let html = AR_DAYS_SHORT.map(d => `<div class="cal-head">${d}</div>`).join('');
+
+  for (let i = 0; i < startDow; i++) html += '<div class="cal-cell cal-empty"></div>';
+
+  for (let d = 1; d <= lastDate; d++) {
+    const date = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
+    const info  = shiftInfo(date, empShift);
+    const isTod = date.getTime() === today.getTime();
+    html += `
+      <div class="cal-cell cal-${info.type} ${isTod ? 'cal-today' : ''}">
+        <span class="cal-day-num">${d}</span>
+        <span class="cal-day-lbl">${info.label}</span>
+        <span class="cal-day-sub">${info.sub}</span>
+      </div>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+/* تشغيل التقويم عند الانتقال إليه — يُضاف في navigateTo أدناه */
+
+/* ════════════════════════════════════════════════
+   10. التهيئة الأولية
    ════════════════════════════════════════════════ */
 renderAll();
 

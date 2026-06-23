@@ -34,9 +34,9 @@ const API = {
       setTimeout(() => {
         if (action === 'login') {
           if (payload.empId === '1001' && payload.password === '123456') {
-            resolve({ success: true, force_change: true, user: { empId: '1001', name: 'موظف تجريبي', shift: 'أ', role: 'موظف', token: 'demo' } });
+            resolve({ success: true, force_change: true, user: { empId: '1001', name: 'موظف تجريبي', shift: 'أ', role: 'موظف', phone: '0500000000', token: 'demo' } });
           } else if (payload.empId === '1001' && payload.password === 'Test@123') {
-            resolve({ success: true, force_change: false, user: { empId: '1001', name: 'موظف تجريبي', shift: 'أ', role: 'موظف', token: 'demo' } });
+            resolve({ success: true, force_change: false, user: { empId: '1001', name: 'موظف تجريبي', shift: 'أ', role: 'موظف', phone: '0500000000', token: 'demo' } });
           } else {
             resolve({ success: false, message: 'الرقم الوظيفي أو كلمة المرور غير صحيحة' });
           }
