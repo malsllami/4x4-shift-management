@@ -6,52 +6,312 @@
   <title>الصفحة الرئيسية — 4x4 إدارة الورديات</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="home-body">
 
-<div class="home-wrapper">
+<!-- ===================================================
+     HEADER
+     =================================================== -->
+<header class="site-header">
+  <div class="header-inner">
 
-  <!-- Header -->
-  <header class="home-header">
-    <div class="home-header-logo">
-      <span>⚙️</span>
-      <span>4x4 إدارة الورديات</span>
+    <!-- Logo -->
+    <div class="header-logo">
+      <span class="header-logo-icon">⚙️</span>
+      <span class="header-logo-text">4x4 إدارة الورديات</span>
     </div>
-    <div class="home-header-user">
-      <span id="header-name">...</span>
-      <div class="home-avatar" id="header-avatar">م</div>
-      <button class="btn btn-secondary" id="logout-btn"
-        style="height:38px; padding:0 16px; font-size:13px;">
-        خروج
+
+    <!-- Desktop Nav -->
+    <nav class="desktop-nav" id="desktop-nav" aria-label="القائمة الرئيسية">
+      <a class="nav-link active" data-section="employee" href="#">لوحة الموظف</a>
+      <a class="nav-link d-none" data-section="admin"    href="#" id="nav-admin">—</a>
+      <a class="nav-link" data-section="calendar"  href="#">تقويم الورديات</a>
+      <a class="nav-link" data-section="leaves"    href="#">الاجازات</a>
+      <a class="nav-link" data-section="overtime"  href="#">العمل الاضافي</a>
+      <a class="nav-link" data-section="settings"  href="#">الاعدادات</a>
+    </nav>
+
+    <!-- User + Hamburger -->
+    <div class="header-end">
+      <div class="header-user-info">
+        <div class="header-avatar" id="header-avatar">م</div>
+        <div class="header-user-meta">
+          <span class="header-user-name" id="header-name">...</span>
+          <span class="header-user-role" id="header-role">...</span>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="القائمة" aria-expanded="false">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
       </button>
     </div>
-  </header>
 
-  <!-- Content -->
-  <main class="home-content">
-    <div class="home-card" style="text-align:center; padding: 60px 32px;">
-      <div style="font-size:56px; margin-bottom:16px;">🚧</div>
-      <h2 style="font-size:22px; margin-bottom:8px;">قيد الإنشاء</h2>
-      <p style="color:var(--text-muted); font-size:14px;">
-        سيتم إضافة محتوى الصفحة الرئيسية قريباً
-      </p>
+  </div>
+
+  <!-- Mobile Nav Dropdown -->
+  <nav class="mobile-nav" id="mobile-nav" aria-label="القائمة المنسدلة">
+    <a class="nav-link active" data-section="employee" href="#">لوحة الموظف</a>
+    <a class="nav-link d-none" data-section="admin"    href="#" id="mob-nav-admin">—</a>
+    <a class="nav-link" data-section="calendar"  href="#">تقويم الورديات</a>
+    <a class="nav-link" data-section="leaves"    href="#">الاجازات</a>
+    <a class="nav-link" data-section="overtime"  href="#">العمل الاضافي</a>
+    <a class="nav-link" data-section="settings"  href="#">الاعدادات</a>
+    <div class="mobile-nav-footer">
+      <button class="btn btn-logout" id="mob-logout-btn">
+        <span>🚪</span> تسجيل الخروج
+      </button>
     </div>
-  </main>
+  </nav>
+</header>
 
-</div>
+<!-- ===================================================
+     MAIN CONTENT
+     =================================================== -->
+<main class="main-content">
+
+  <!-- ── لوحة الموظف ── -->
+  <section id="section-employee" class="page-section active">
+    <div class="section-header">
+      <h1 class="section-title">لوحة الموظف</h1>
+      <button class="btn btn-logout desktop-only" id="logout-btn">
+        <span>🚪</span> خروج
+      </button>
+    </div>
+
+    <!-- بطاقة الموظف -->
+    <div class="emp-card" id="emp-card">
+      <div class="emp-card-header" id="emp-card-header">
+        <div class="emp-avatar-wrap">
+          <div class="emp-avatar" id="emp-avatar">م</div>
+        </div>
+        <div class="emp-card-shift-bg" id="emp-shift-bg"></div>
+      </div>
+      <div class="emp-card-body">
+        <h2 class="emp-name" id="emp-name">—</h2>
+        <div class="emp-meta-grid">
+          <div class="emp-meta-item">
+            <span class="emp-meta-icon">🪪</span>
+            <div>
+              <div class="emp-meta-label">الرقم الوظيفي</div>
+              <div class="emp-meta-value" id="emp-id">—</div>
+            </div>
+          </div>
+          <div class="emp-meta-item">
+            <span class="emp-meta-icon">🔄</span>
+            <div>
+              <div class="emp-meta-label">الوردية</div>
+              <div class="emp-meta-value">
+                <span class="shift-badge" id="emp-shift">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="emp-meta-item">
+            <span class="emp-meta-icon">📱</span>
+            <div>
+              <div class="emp-meta-label">رقم الجوال</div>
+              <div class="emp-meta-value" id="emp-phone">—</div>
+            </div>
+          </div>
+          <div class="emp-meta-item">
+            <span class="emp-meta-icon">🏷️</span>
+            <div>
+              <div class="emp-meta-label">الدور الوظيفي</div>
+              <div class="emp-meta-value" id="emp-role">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- placeholder بقية المحتوى -->
+    <div class="placeholder-card">
+      <div class="placeholder-icon">📊</div>
+      <p>ستُضاف إحصائيات الموظف هنا</p>
+    </div>
+  </section>
+
+  <!-- ── لوحة المشرف/المدير/الاداري ── -->
+  <section id="section-admin" class="page-section">
+    <div class="section-header">
+      <h1 class="section-title" id="admin-section-title">لوحة المشرف</h1>
+    </div>
+    <div class="placeholder-card">
+      <div class="placeholder-icon">🛠️</div>
+      <p>ستُضاف أدوات الإدارة هنا</p>
+    </div>
+  </section>
+
+  <!-- ── تقويم الورديات ── -->
+  <section id="section-calendar" class="page-section">
+    <div class="section-header">
+      <h1 class="section-title">تقويم الورديات</h1>
+    </div>
+    <div class="placeholder-card">
+      <div class="placeholder-icon">📅</div>
+      <p>سيُضاف تقويم الورديات هنا</p>
+    </div>
+  </section>
+
+  <!-- ── الاجازات ── -->
+  <section id="section-leaves" class="page-section">
+    <div class="section-header">
+      <h1 class="section-title">الاجازات</h1>
+    </div>
+    <div class="placeholder-card">
+      <div class="placeholder-icon">🌴</div>
+      <p>ستُضاف إدارة الاجازات هنا</p>
+    </div>
+  </section>
+
+  <!-- ── العمل الاضافي ── -->
+  <section id="section-overtime" class="page-section">
+    <div class="section-header">
+      <h1 class="section-title">العمل الاضافي</h1>
+    </div>
+    <div class="placeholder-card">
+      <div class="placeholder-icon">⏰</div>
+      <p>ستُضاف إدارة العمل الإضافي هنا</p>
+    </div>
+  </section>
+
+  <!-- ── الاعدادات ── -->
+  <section id="section-settings" class="page-section">
+    <div class="section-header">
+      <h1 class="section-title">الاعدادات</h1>
+    </div>
+    <div class="placeholder-card">
+      <div class="placeholder-icon">⚙️</div>
+      <p>ستُضاف إعدادات النظام هنا</p>
+    </div>
+  </section>
+
+</main>
 
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script>
-  const user = Auth.requireAuth();
-  if (user) {
-    document.getElementById('header-name').textContent = user.name || '';
-    document.getElementById('header-avatar').textContent =
-      user.name ? user.name.trim().charAt(0) : 'م';
-  }
+/* ===================================================
+   بيانات الجلسة
+   =================================================== */
+const user = Auth.requireAuth();
+if (!user) throw new Error('no session');
 
-  document.getElementById('logout-btn').addEventListener('click', () => {
-    Auth.logout();
+/* ===================================================
+   ملء بيانات المستخدم
+   =================================================== */
+const SHIFT_CLASSES = { 'أ':'shift-a','ب':'shift-b','ج':'shift-c','د':'shift-d' };
+const SHIFT_COLORS  = { 'أ':'#2563eb','ب':'#0d9488','ج':'#15803d','د':'#7c3aed' };
+
+const ROLE_LABELS = {
+  'موظف':   'موظف',
+  'مشرف':   'مشرف',
+  'مدير':   'مدير',
+  'اداري':  'اداري',
+};
+
+function initUserUI() {
+  const initials = user.name ? user.name.trim().charAt(0) : 'م';
+  const shiftCls = SHIFT_CLASSES[user.shift] || 'shift-a';
+  const shiftCol = SHIFT_COLORS[user.shift]  || '#2563eb';
+
+  /* Header */
+  document.getElementById('header-avatar').textContent = initials;
+  document.getElementById('header-name').textContent   = user.name  || '';
+  document.getElementById('header-role').textContent   = user.role  || '';
+
+  /* بطاقة الموظف */
+  document.getElementById('emp-avatar').textContent    = initials;
+  document.getElementById('emp-name').textContent      = user.name  || '—';
+  document.getElementById('emp-id').textContent        = user.empId || '—';
+  document.getElementById('emp-phone').textContent     = user.phone || '—';
+  document.getElementById('emp-role').textContent      = user.role  || '—';
+
+  const shiftEl = document.getElementById('emp-shift');
+  shiftEl.textContent = 'وردية ' + (user.shift || '');
+  shiftEl.className   = 'shift-badge ' + shiftCls;
+
+  /* لون رأس البطاقة حسب الوردية */
+  document.getElementById('emp-card-header').style.background =
+    `linear-gradient(135deg, ${shiftCol}dd, ${shiftCol}99)`;
+
+  /* القائمة الإدارية */
+  const role = user.role || '';
+  const adminNav   = document.getElementById('nav-admin');
+  const mobAdminNav = document.getElementById('mob-nav-admin');
+  const adminSection = document.getElementById('admin-section-title');
+
+  if (role === 'مشرف' || role === 'مدير' || role === 'اداري') {
+    const label = ROLE_LABELS[role] ? `لوحة ${ROLE_LABELS[role]}` : 'لوحة الإدارة';
+    adminNav.textContent    = label;
+    mobAdminNav.textContent = label;
+    adminSection.textContent = label;
+    adminNav.classList.remove('d-none');
+    mobAdminNav.classList.remove('d-none');
+  }
+}
+
+initUserUI();
+
+/* ===================================================
+   التنقل بين الأقسام
+   =================================================== */
+function navigateTo(sectionId) {
+  /* إخفاء جميع الأقسام */
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+
+  /* إظهار القسم المطلوب */
+  const target = document.getElementById('section-' + sectionId);
+  if (target) target.classList.add('active');
+
+  /* تفعيل الرابط النشط */
+  document.querySelectorAll(`.nav-link[data-section="${sectionId}"]`)
+    .forEach(a => a.classList.add('active'));
+
+  /* إغلاق القائمة المنسدلة في الجوال */
+  closeMobileNav();
+
+  /* تمرير للأعلى */
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    navigateTo(link.dataset.section);
   });
+});
+
+/* ===================================================
+   الهامبرجر (الجوال)
+   =================================================== */
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobile-nav');
+
+function closeMobileNav() {
+  mobileNav.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+}
+
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileNav.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+});
+
+/* إغلاق عند الضغط خارج القائمة */
+document.addEventListener('click', e => {
+  if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+    closeMobileNav();
+  }
+});
+
+/* ===================================================
+   تسجيل الخروج
+   =================================================== */
+document.getElementById('logout-btn').addEventListener('click', () => Auth.logout());
+document.getElementById('mob-logout-btn').addEventListener('click', () => Auth.logout());
 </script>
 
 </body>
