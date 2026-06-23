@@ -8,6 +8,25 @@
 </head>
 <body>
 
+<!-- ===== بطاقة الترحيب (مخفية في البداية) ===== -->
+<div id="welcome-overlay" class="welcome-overlay hidden">
+  <div class="welcome-card">
+    <div class="welcome-avatar" id="welcome-avatar">م</div>
+    <div class="welcome-greeting">أهلاً وسهلاً بك 👋</div>
+    <div class="welcome-name" id="welcome-name">اسم الموظف</div>
+    <div class="welcome-meta">
+      <span class="welcome-id-badge" id="welcome-id-badge">🪪 0000</span>
+      <span class="shift-badge shift-a" id="welcome-shift">وردية أ</span>
+    </div>
+    <div class="welcome-role-badge" id="welcome-role">موظف</div>
+    <div class="welcome-progress-wrap">
+      <div class="welcome-progress-bar" id="welcome-progress"></div>
+    </div>
+    <div class="welcome-countdown">جاري التحويل خلال <span id="welcome-timer">3</span> ثوان...</div>
+  </div>
+</div>
+
+<!-- ===== صفحة الدخول ===== -->
 <div class="auth-wrapper">
   <div class="auth-card">
 
@@ -18,19 +37,19 @@
       <div class="auth-logo-sub">سجّل دخولك للمتابعة</div>
     </div>
 
-    <!-- Alert -->
+    <!-- رسالة خطأ -->
     <div id="login-alert" class="alert alert-error alert-hidden" role="alert">
       <span>⚠️</span>
       <span id="login-alert-msg"></span>
     </div>
 
-    <!-- Success Alert (after password reset) -->
-    <div id="login-success" class="alert alert-success alert-hidden" role="alert">
+    <!-- رسالة نجاح استعادة الباسورد -->
+    <div id="login-success-msg-box" class="alert alert-success alert-hidden" role="alert">
       <span>✅</span>
       <span id="login-success-msg"></span>
     </div>
 
-    <!-- Login Form -->
+    <!-- نموذج الدخول -->
     <form id="login-form" novalidate>
 
       <div class="form-group">
@@ -57,16 +76,18 @@
             autocomplete="current-password"
             required
           />
-          <button type="button" class="pw-eye" id="pw-toggle" aria-label="إظهار / إخفاء كلمة المرور" title="إظهار / إخفاء">
-            👁
-          </button>
+          <button type="button" class="pw-eye" id="pw-toggle"
+            aria-label="إظهار / إخفاء كلمة المرور">👁</button>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block" id="login-btn">
-        <span class="spinner"></span>
-        <span class="btn-text">دخول</span>
-      </button>
+      <div id="login-btn-wrap" style="display:flex; justify-content:center;">
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+          <span class="spinner"></span>
+          <span class="btn-check">✓</span>
+          <span class="btn-text">دخول</span>
+        </button>
+      </div>
 
     </form>
 
@@ -74,9 +95,7 @@
       <a href="forgot-password.html">نسيت كلمة المرور؟</a>
     </div>
 
-    <div class="auth-footer">
-      نظام إدارة الورديات — جميع الحقوق محفوظة
-    </div>
+    <div class="auth-footer">نظام إدارة الورديات — جميع الحقوق محفوظة</div>
 
   </div>
 </div>
@@ -85,86 +104,175 @@
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
 <script>
-  /* ---- عرض رسالة نجاح استعادة الباسورد إن وجدت ---- */
-  const resetMsg = sessionStorage.getItem('reset_success');
-  if (resetMsg) {
-    document.getElementById('login-success').classList.remove('alert-hidden');
-    document.getElementById('login-success-msg').textContent = resetMsg;
-    sessionStorage.removeItem('reset_success');
+/* ===== رسالة استعادة الباسورد ===== */
+const resetMsg = sessionStorage.getItem('reset_success');
+if (resetMsg) {
+  document.getElementById('login-success-msg-box').classList.remove('alert-hidden');
+  document.getElementById('login-success-msg').textContent = resetMsg;
+  sessionStorage.removeItem('reset_success');
+}
+
+/* ===== إظهار/إخفاء الباسورد ===== */
+const pwInput  = document.getElementById('password');
+const pwToggle = document.getElementById('pw-toggle');
+let   pwVisible = false;
+
+pwToggle.addEventListener('click', () => {
+  pwVisible = !pwVisible;
+  pwInput.type         = pwVisible ? 'text' : 'password';
+  pwToggle.textContent = pwVisible ? '🙈' : '👁';
+});
+
+/* ===== أدوات مساعدة ===== */
+const loginBtn  = document.getElementById('login-btn');
+const alertBox  = document.getElementById('login-alert');
+const alertMsg  = document.getElementById('login-alert-msg');
+
+function showError(msg) {
+  alertBox.classList.remove('alert-hidden');
+  alertMsg.textContent = msg;
+  document.getElementById('login-success-msg-box').classList.add('alert-hidden');
+  /* اهتزازة خفيفة للكارد */
+  const card = document.querySelector('.auth-card');
+  card.style.animation = 'none';
+  card.offsetHeight; /* reflow */
+  card.style.animation = 'shake .35s ease both';
+}
+
+function hideError() { alertBox.classList.add('alert-hidden'); }
+
+/* ===== أنيميشن الزر ← دائرة ===== */
+function morphBtn(state) {
+  /* حساب الحجم الحالي قبل التحويل */
+  const btn = loginBtn;
+
+  if (state === 'loading') {
+    const w = btn.offsetWidth;
+    const h = btn.offsetHeight;
+    btn.style.width  = w + 'px';   /* تثبيت العرض الحالي */
+    btn.style.height = h + 'px';
+    /* trigger reflow ثم ابدأ التحريك */
+    btn.offsetWidth;
+    btn.style.width = h + 'px';    /* ← تصغير إلى مربع = دائرة */
+    btn.classList.add('btn-morphing');
+    btn.classList.remove('btn-success-state');
+
+  } else if (state === 'success') {
+    btn.classList.remove('btn-morphing');
+    btn.classList.add('btn-success-state');
+
+  } else { /* reset */
+    btn.classList.remove('btn-morphing', 'btn-success-state');
+    btn.style.width  = '';
+    btn.style.height = '';
+  }
+}
+
+/* ===== بطاقة الترحيب ===== */
+const SHIFT_CLASSES = { 'أ':'shift-a', 'ب':'shift-b', 'ج':'shift-c', 'د':'shift-d' };
+
+function showWelcome(user, nextPage) {
+  const overlay   = document.getElementById('welcome-overlay');
+  const avatar    = document.getElementById('welcome-avatar');
+  const nameEl    = document.getElementById('welcome-name');
+  const idBadge   = document.getElementById('welcome-id-badge');
+  const shiftEl   = document.getElementById('welcome-shift');
+  const roleEl    = document.getElementById('welcome-role');
+  const progress  = document.getElementById('welcome-progress');
+  const timerEl   = document.getElementById('welcome-timer');
+
+  /* حروف الاسم */
+  const initials  = user.name ? user.name.trim().charAt(0) : '?';
+  avatar.textContent = initials;
+
+  nameEl.textContent  = user.name   || 'مرحباً';
+  idBadge.textContent = '🪪 ' + (user.empId || '');
+  shiftEl.textContent = 'وردية ' + (user.shift || '');
+
+  /* لون الوردية */
+  shiftEl.className = 'shift-badge ' + (SHIFT_CLASSES[user.shift] || 'shift-a');
+
+  roleEl.textContent = user.role || 'موظف';
+
+  overlay.classList.remove('hidden');
+
+  /* شريط التقدم — 3 ثوان */
+  const DURATION = 3000;
+  let   elapsed  = 0;
+  const STEP     = 50;
+
+  progress.style.transition = 'none';
+  progress.style.width      = '100%';
+
+  const tick = setInterval(() => {
+    elapsed += STEP;
+    const pct = Math.max(0, 100 - (elapsed / DURATION) * 100);
+    progress.style.transition = 'none';
+    progress.style.width      = pct + '%';
+    timerEl.textContent = Math.ceil((DURATION - elapsed) / 1000);
+
+    if (elapsed >= DURATION) {
+      clearInterval(tick);
+      window.location.href = nextPage;
+    }
+  }, STEP);
+}
+
+/* ===== نموذج الدخول ===== */
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideError();
+
+  const empId    = document.getElementById('empId').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!empId || !password) {
+    showError('الرجاء إدخال الرقم الوظيفي وكلمة المرور');
+    return;
   }
 
-  /* ---- إظهار / إخفاء الباسورد ---- */
-  const pwInput  = document.getElementById('password');
-  const pwToggle = document.getElementById('pw-toggle');
-  let pwVisible  = false;
+  morphBtn('loading');
 
-  pwToggle.addEventListener('click', () => {
-    pwVisible = !pwVisible;
-    pwInput.type    = pwVisible ? 'text' : 'password';
-    pwToggle.textContent = pwVisible ? '🙈' : '👁';
-  });
+  try {
+    const result = await API.login(empId, password);
 
-  /* ---- نموذج الدخول ---- */
-  const loginForm = document.getElementById('login-form');
-  const loginBtn  = document.getElementById('login-btn');
-  const alertBox  = document.getElementById('login-alert');
-  const alertMsg  = document.getElementById('login-alert-msg');
-
-  function showError(msg) {
-    alertBox.classList.remove('alert-hidden');
-    alertMsg.textContent = msg;
-    document.getElementById('login-success').classList.add('alert-hidden');
-  }
-
-  function hideError() {
-    alertBox.classList.add('alert-hidden');
-  }
-
-  function setLoading(on) {
-    loginBtn.classList.toggle('loading', on);
-    loginBtn.disabled = on;
-  }
-
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    hideError();
-
-    const empId    = document.getElementById('empId').value.trim();
-    const password = document.getElementById('password').value;
-
-    if (!empId || !password) {
-      showError('الرجاء إدخال الرقم الوظيفي وكلمة المرور');
+    if (!result.success) {
+      morphBtn('reset');
+      showError(result.message || 'الرقم الوظيفي أو كلمة المرور غير صحيحة');
       return;
     }
 
-    setLoading(true);
+    /* نجح الدخول */
+    Auth.setSession(result.user);
+    morphBtn('success');
 
-    try {
-      const result = await API.login(empId, password);
-
-      if (!result.success) {
-        showError(result.message || 'الرقم الوظيفي أو كلمة المرور غير صحيحة');
-        return;
-      }
-
-      /* حفظ بيانات الجلسة */
-      Auth.setSession(result.user);
-
+    /* بعد 600ms تظهر بطاقة الترحيب أو نموذج تغيير الباسورد */
+    setTimeout(() => {
       if (result.force_change) {
-        /* باسورد مؤقت → إجبار التغيير */
         window.location.href = 'change-password.html';
       } else {
-        window.location.href = 'home.html';
+        showWelcome(result.user, 'home.html');
       }
+    }, 600);
 
-    } catch (err) {
-      showError('حدث خطأ في الاتصال، حاول مرة أخرى');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  });
+  } catch (err) {
+    morphBtn('reset');
+    showError('حدث خطأ في الاتصال، حاول مرة أخرى');
+    console.error(err);
+  }
+});
 </script>
+
+<style>
+/* shake animation للخطأ */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
+}
+</style>
 
 </body>
 </html>
