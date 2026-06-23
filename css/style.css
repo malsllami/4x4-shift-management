@@ -1343,6 +1343,206 @@ html[dir="rtl"] .btn-card-edit { margin-right: 0; margin-left: auto; }
 }
 
 /* =========================================================
+   LEAVES — الاجازات
+   ========================================================= */
+
+/* فورم الطلب */
+.lv-form-body { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+.lv-fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.lv-error-msg {
+  background: var(--danger-light);
+  color: var(--danger);
+  border: 1.5px solid #fca5a5;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px; font-weight: 700;
+}
+
+/* ملخص الرصيد */
+.lv-summary {
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 14px;
+  border: 1.5px solid var(--border);
+}
+
+.lv-dur-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.lv-dur-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border: 1.5px solid var(--primary);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 15px; font-weight: 800;
+}
+.lv-dur-badge strong { font-size: 22px; }
+
+.lv-bal-warn {
+  background: #fff7ed; color: #92400e;
+  border: 1.5px solid #fcd34d;
+  padding: 6px 14px; border-radius: var(--radius-full);
+  font-size: 13px; font-weight: 800;
+}
+
+.lv-bal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.lv-bal-item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+  border: 1.5px solid var(--border);
+}
+
+.lv-bal-lbl { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+
+.lv-bal-val { font-size: 20px; font-weight: 900; }
+
+.lv-val-avail   { color: var(--secondary); }
+.lv-val-minus   { color: var(--danger); }
+.lv-val-negative { color: var(--danger) !important; }
+
+/* ── جدول الوردية خلال الإجازة ── */
+.lv-sched-wrap { overflow-x: auto; padding: 0 20px; }
+
+.lv-sched-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13.5px;
+}
+.lv-sched-table th {
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 12px; font-weight: 800;
+  padding: 10px 12px;
+  text-align: right;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.lv-sched-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* ألوان الصفوف */
+.lvsched-morning { background: linear-gradient(90deg, rgba(254,243,199,.6) 0%, transparent 60%); }
+.lvsched-evening { background: linear-gradient(90deg, rgba(30,27,75,.08) 0%, transparent 60%); }
+.lvsched-rest    { background: linear-gradient(90deg, rgba(220,252,231,.6) 0%, transparent 60%); }
+.lvsched-today   { outline: 2px solid var(--primary); outline-offset: -2px; position: relative; }
+.lvsched-today td:first-child::before {
+  content: 'اليوم';
+  display: inline-block;
+  background: var(--primary); color: #fff;
+  font-size: 10px; font-weight: 800;
+  padding: 1px 6px; border-radius: var(--radius-full);
+  margin-left: 6px;
+}
+
+.lvsched-hi   { color: var(--text-muted); font-size: 12px; }
+.lvsched-dow  { font-weight: 800; }
+.lvsched-sub  { font-size: 12px; color: var(--text-muted); }
+.lvsched-time { font-weight: 700; }
+
+/* شيبس الحالة */
+.lv-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 12px; border-radius: var(--radius-full);
+  font-size: 12.5px; font-weight: 800; white-space: nowrap;
+}
+.lv-chip-morning { background: linear-gradient(135deg, var(--c-morning-bg1), var(--c-morning-bg2)); color: var(--c-morning-text); border: 1px solid var(--c-morning-border); }
+.lv-chip-evening { background: linear-gradient(135deg, var(--c-evening-bg1), var(--c-evening-bg2)); color: var(--c-evening-text); border: 1px solid var(--c-evening-border); }
+.lv-chip-rest    { background: linear-gradient(135deg, var(--c-rest-bg1),    var(--c-rest-bg2));    color: var(--c-rest-text);    border: 1px solid var(--c-rest-border);    }
+
+/* زر الحفظ */
+.lv-save-row {
+  display: flex; justify-content: center;
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+}
+
+/* ── سجل الإجازات ── */
+.lv-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 40px 20px; color: var(--text-muted);
+}
+.lv-empty span { font-size: 48px; }
+.lv-empty p    { font-size: 15px; font-weight: 600; }
+
+.lv-table-wrap { overflow-x: auto; padding: 0; }
+
+.lv-hist-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13.5px;
+}
+.lv-hist-table th {
+  background: var(--bg); color: var(--text-muted);
+  font-size: 12px; font-weight: 800;
+  padding: 10px 16px; text-align: right;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.lv-hist-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+/* ألوان صفوف السجل */
+.lv-hist-active   { background: rgba(16,185,129,.06); }
+.lv-hist-upcoming { background: rgba(245,158,11,.05); }
+.lv-hist-past     { opacity: .75; }
+
+.lv-type-chip {
+  display: inline-block;
+  background: var(--primary-light); color: var(--primary-dark);
+  border: 1px solid var(--primary);
+  padding: 3px 10px; border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 800; white-space: nowrap;
+}
+
+/* شارات الحالة */
+.lv-state {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 12px; border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 800; white-space: nowrap;
+}
+.lv-state.past     { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; }
+.lv-state.active   { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; font-size: 13px; }
+.lv-state.upcoming { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; }
+
+.lv-detail { font-size: 12.5px; font-weight: 700; color: var(--text-muted); }
+
+.lv-del {
+  background: none; border: none; cursor: pointer;
+  font-size: 16px; padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--t);
+}
+.lv-del:hover { background: var(--danger-light); }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .lv-fields-row { grid-template-columns: 1fr; gap: 10px; }
+  .lv-bal-grid   { grid-template-columns: 1fr; }
+  .lvsched-hi    { display: none; }
+}
+
+/* =========================================================
    CALENDAR
    ========================================================= */
 
@@ -1447,6 +1647,53 @@ html[dir="rtl"] .today-date-label { margin-right: 0; margin-left: auto; }
 .sday-bg-evening .sday-time { background: rgba(255,255,255,.12); }
 
 /* ═══════════════════════════════════════
+   بطاقة الإحصائيات
+   ═══════════════════════════════════════ */
+.stat-month-label {
+  font-size: 13px; font-weight: 700; color: var(--text-muted);
+  margin-right: auto;
+}
+html[dir="rtl"] .stat-month-label { margin-right: 0; margin-left: auto; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  padding: 18px 20px;
+}
+
+.stat-item {
+  border-radius: var(--radius-md);
+  padding: 18px 10px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  border: 2px solid transparent;
+  transition: transform var(--t), box-shadow var(--t);
+}
+.stat-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+.stat-item-morning {
+  background: linear-gradient(150deg, var(--c-morning-bg1), var(--c-morning-bg2));
+  border-color: var(--c-morning-border); color: var(--c-morning-text);
+}
+.stat-item-evening {
+  background: linear-gradient(150deg, var(--c-evening-bg1), var(--c-evening-bg2));
+  border-color: var(--c-evening-border); color: var(--c-evening-text);
+}
+.stat-item-total {
+  background: linear-gradient(150deg, var(--primary-light), #dbeafe);
+  border-color: #93c5fd; color: var(--primary-dark);
+}
+.stat-item-rest {
+  background: linear-gradient(150deg, var(--c-rest-bg1), var(--c-rest-bg2));
+  border-color: var(--c-rest-border); color: var(--c-rest-text);
+}
+
+.stat-icon-big { font-size: 28px; line-height: 1; }
+.stat-val  { font-size: 36px; font-weight: 900; line-height: 1; }
+.stat-lbl  { font-size: 12px; font-weight: 800; }
+.stat-unit { font-size: 11px; font-weight: 600; opacity: .7; }
+
+/* ═══════════════════════════════════════
    شريط التنقل بين الأشهر
    ═══════════════════════════════════════ */
 .cal-nav-bar {
@@ -1475,6 +1722,20 @@ html[dir="rtl"] .today-date-label { margin-right: 0; margin-left: auto; }
   display: block;
   font-size: 12px; font-weight: 600; color: var(--text-muted);
 }
+
+.cal-today-btn {
+  font-size: 13px; font-weight: 800;
+  padding: 7px 14px;
+  background: var(--primary);
+  color: #fff;
+  border: none; border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+  white-space: nowrap;
+  font-family: inherit;
+}
+.cal-today-btn:hover { background: var(--primary-dark); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.cal-today-btn:active { transform: scale(.95); }
 
 /* ═══════════════════════════════════════
    شبكة التقويم
@@ -1551,6 +1812,104 @@ html[dir="rtl"] .today-date-label { margin-right: 0; margin-left: auto; }
 }
 .cal-today.cal-evening .cal-day-num { background: #818cf8; }
 
+/* ── الخلية المختارة ── */
+.cal-selected {
+  outline: 2.5px solid var(--accent) !important;
+  outline-offset: 2px;
+  position: relative; z-index: 2;
+}
+.cal-selected.cal-evening { outline-color: #fbbf24 !important; }
+
+/* ── لوحة تفاصيل اليوم المختار ── */
+.cal-day-detail {
+  margin: 16px 16px 0;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  overflow: hidden;
+  animation: slideDown .25s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cdd-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border-bottom: 1px solid var(--border);
+}
+
+.cdd-dates { display: flex; flex-direction: column; gap: 2px; }
+
+.cdd-date-gr {
+  font-size: 14px; font-weight: 800; color: var(--text);
+}
+
+.cdd-date-hi {
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+}
+
+.cdd-close {
+  width: 30px; height: 30px;
+  background: rgba(0,0,0,.07); border: none;
+  border-radius: 50%; cursor: pointer;
+  font-size: 14px; font-weight: 800;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--t), color var(--t);
+  font-family: inherit;
+}
+.cdd-close:hover { background: var(--danger-light); color: var(--danger); }
+
+.cdd-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 14px;
+}
+
+.cdd-card {
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  border: 1.5px solid transparent;
+  transition: transform var(--t);
+  text-align: center;
+}
+.cdd-card:hover { transform: translateY(-2px); }
+
+.cdd-bg-morning {
+  background: linear-gradient(150deg, var(--c-morning-bg1), var(--c-morning-bg2));
+  border-color: var(--c-morning-border); color: var(--c-morning-text);
+}
+.cdd-bg-evening {
+  background: linear-gradient(150deg, var(--c-evening-bg1), var(--c-evening-bg2));
+  border-color: var(--c-evening-border); color: var(--c-evening-text);
+}
+.cdd-bg-rest {
+  background: linear-gradient(150deg, var(--c-rest-bg1), var(--c-rest-bg2));
+  border-color: var(--c-rest-border); color: var(--c-rest-text);
+}
+
+.cdd-mine {
+  box-shadow: 0 0 0 2.5px rgba(37,99,235,.35), var(--shadow-sm);
+}
+.cdd-bg-evening.cdd-mine { box-shadow: 0 0 0 2.5px rgba(167,139,250,.5); }
+
+.cdd-card-top { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center; }
+.cdd-icon  { font-size: 22px; line-height: 1; }
+.cdd-label { font-size: 16px; font-weight: 900; }
+.cdd-sub   { font-size: 11px; font-weight: 700; opacity: .75; }
+.cdd-time  {
+  font-size: 10.5px; font-weight: 700;
+  background: rgba(0,0,0,.07);
+  padding: 2px 7px; border-radius: var(--radius-full); margin-top: 2px;
+}
+.cdd-bg-evening .cdd-time { background: rgba(255,255,255,.12); }
+
 /* ═══════════════════════════════════════
    مفتاح الألوان
    ═══════════════════════════════════════ */
@@ -1585,22 +1944,28 @@ html[dir="rtl"] .today-date-label { margin-right: 0; margin-left: auto; }
    Responsive
    ═══════════════════════════════════════ */
 @media (max-width: 700px) {
-  .shifts-today-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
-  .sday-icon  { font-size: 22px; }
-  .sday-label { font-size: 17px; }
-  .cal-grid   { min-width: 330px; gap: 4px; }
-  .cal-cell   { min-height: 68px; padding: 6px 3px 5px; }
-  .cal-icon   { font-size: 11px; }
-  .cal-day-num { font-size: 13px; }
+  .shifts-today-grid  { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
+  .stats-grid         { grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px; }
+  .stat-val           { font-size: 28px; }
+  .stat-icon-big      { font-size: 22px; }
+  .sday-icon          { font-size: 22px; }
+  .sday-label         { font-size: 17px; }
+  .cal-grid           { min-width: 330px; gap: 4px; }
+  .cal-cell           { min-height: 68px; padding: 6px 3px 5px; }
+  .cal-icon           { font-size: 11px; }
+  .cal-day-num        { font-size: 13px; }
   .cal-today .cal-day-num { width: 18px; height: 18px; font-size: 10px; }
-  .cal-day-lbl { font-size: 9.5px; }
-  .cal-day-sub { font-size: 8.5px; }
-  .cal-outer  { padding: 8px 8px 0; }
-  .cal-month-title { font-size: 14px; min-width: 160px; }
+  .cal-day-lbl        { font-size: 9.5px; }
+  .cal-day-sub        { font-size: 8.5px; }
+  .cal-outer          { padding: 8px 8px 0; }
+  .cal-month-title    { font-size: 14px; min-width: 160px; }
+  .cal-nav-bar        { gap: 10px; flex-wrap: wrap; }
+  .cdd-grid           { grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
 }
 
 @media (max-width: 400px) {
   .shifts-today-grid { grid-template-columns: 1fr 1fr; }
+  .stats-grid        { grid-template-columns: 1fr 1fr; }
 }
 
 /* Auth pages responsive */

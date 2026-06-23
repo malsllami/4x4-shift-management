@@ -348,6 +348,41 @@
       <div class="shifts-today-grid" id="shifts-today-grid"></div>
     </div>
 
+    <!-- إحصائيات الشهر -->
+    <div class="info-card">
+      <div class="info-card-head">
+        <span class="info-card-icon">📊</span>
+        <h3 class="info-card-title">إحصائيات الشهر</h3>
+        <span class="stat-month-label" id="stat-month-label">—</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item stat-item-morning">
+          <div class="stat-icon-big">☀️</div>
+          <div class="stat-val" id="stat-morning">0</div>
+          <div class="stat-lbl">دوام صباح</div>
+          <div class="stat-unit">يوم</div>
+        </div>
+        <div class="stat-item stat-item-evening">
+          <div class="stat-icon-big">🌙</div>
+          <div class="stat-val" id="stat-evening">0</div>
+          <div class="stat-lbl">دوام مساء</div>
+          <div class="stat-unit">يوم</div>
+        </div>
+        <div class="stat-item stat-item-total">
+          <div class="stat-icon-big">📋</div>
+          <div class="stat-val" id="stat-total">0</div>
+          <div class="stat-lbl">إجمالي الدوام</div>
+          <div class="stat-unit">يوم</div>
+        </div>
+        <div class="stat-item stat-item-rest">
+          <div class="stat-icon-big">💤</div>
+          <div class="stat-val" id="stat-rest">0</div>
+          <div class="stat-lbl">إجمالي الأوف</div>
+          <div class="stat-unit">يوم</div>
+        </div>
+      </div>
+    </div>
+
     <!-- التقويم الشهري -->
     <div class="info-card">
       <div class="info-card-head">
@@ -361,11 +396,24 @@
         <button class="cal-nav-btn" id="cal-prev" title="الشهر السابق">&#8592;</button>
         <span class="cal-month-title" id="cal-month-title">—</span>
         <button class="cal-nav-btn" id="cal-next" title="الشهر التالي">&#8594;</button>
+        <button class="cal-today-btn" id="cal-go-today" title="انتقل لليوم الحالي">📍 اليوم</button>
       </div>
 
       <!-- شبكة التقويم -->
       <div class="cal-outer">
         <div class="cal-grid" id="cal-grid"></div>
+      </div>
+
+      <!-- تفاصيل اليوم المختار -->
+      <div id="cal-day-detail" class="cal-day-detail d-none">
+        <div class="cdd-head">
+          <div class="cdd-dates">
+            <span class="cdd-date-gr" id="cdd-date-gr">—</span>
+            <span class="cdd-date-hi" id="cdd-date-hi">—</span>
+          </div>
+          <button class="cdd-close" id="cdd-close" title="إغلاق">✕</button>
+        </div>
+        <div class="cdd-grid" id="cdd-grid"></div>
       </div>
 
       <!-- مفتاح الألوان -->
@@ -389,10 +437,98 @@
   <!-- ══ الاجازات ══ -->
   <section id="section-leaves" class="page-section">
     <div class="section-header"><h1 class="section-title">الاجازات</h1></div>
-    <div class="placeholder-card">
-      <div class="placeholder-icon">🌴</div>
-      <p>ستُضاف إدارة الاجازات هنا</p>
+
+    <!-- ═══ طلب إجازة جديدة ═══ -->
+    <div class="info-card">
+      <div class="info-card-head">
+        <span class="info-card-icon">📝</span>
+        <h3 class="info-card-title">طلب إجازة جديدة</h3>
+      </div>
+      <div class="lv-form-body">
+
+        <div class="lv-fields-row">
+          <div class="form-group">
+            <label class="form-label">نوع الإجازة</label>
+            <select id="lv-type" class="form-control form-select">
+              <option value="annual">إجازة سنوية</option>
+              <option value="scheduled">إجازة مجدولة</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">تاريخ البداية</label>
+            <input type="date" id="lv-start" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">تاريخ الانتهاء</label>
+            <input type="date" id="lv-end" class="form-control" />
+          </div>
+        </div>
+
+        <div id="lv-error" class="lv-error-msg d-none"></div>
+
+        <!-- ملخص الرصيد -->
+        <div id="lv-summary" class="lv-summary d-none">
+          <div class="lv-dur-row">
+            <div class="lv-dur-badge">مدة الإجازة: <strong id="lv-dur-num">0</strong> يوم</div>
+            <div id="lv-bal-warn" class="lv-bal-warn d-none">⚠️ الرصيد غير كافٍ</div>
+          </div>
+          <div class="lv-bal-grid">
+            <div class="lv-bal-item">
+              <div class="lv-bal-lbl">الرصيد المتاح</div>
+              <div class="lv-bal-val lv-val-avail" id="lv-bal-avail">—</div>
+            </div>
+            <div class="lv-bal-item">
+              <div class="lv-bal-lbl">يُستقطع</div>
+              <div class="lv-bal-val lv-val-minus" id="lv-bal-deduct">—</div>
+            </div>
+            <div class="lv-bal-item" id="lv-bal-remain-wrap">
+              <div class="lv-bal-lbl">المتبقي بعد الإجازة</div>
+              <div class="lv-bal-val" id="lv-bal-remain">—</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+
+    <!-- ═══ جدول الوردية خلال الإجازة ═══ -->
+    <div id="lv-schedule-card" class="info-card d-none">
+      <div class="info-card-head">
+        <span class="info-card-icon">📅</span>
+        <h3 class="info-card-title">جدول الوردية خلال الإجازة</h3>
+        <span id="lv-sched-badge" class="shift-badge shift-a">وردية أ</span>
+      </div>
+      <div class="lv-sched-wrap">
+        <table class="lv-sched-table">
+          <thead>
+            <tr>
+              <th>اليوم</th>
+              <th>التاريخ الميلادي</th>
+              <th>التاريخ الهجري</th>
+              <th>الحالة</th>
+              <th>التفاصيل</th>
+              <th>الوقت</th>
+            </tr>
+          </thead>
+          <tbody id="lv-sched-body"></tbody>
+        </table>
+      </div>
+      <div class="lv-save-row">
+        <button class="btn btn-primary" id="lv-save-btn">💾 حفظ الإجازة</button>
+      </div>
+    </div>
+
+    <!-- ═══ سجل الإجازات ═══ -->
+    <div class="info-card">
+      <div class="info-card-head">
+        <span class="info-card-icon">📋</span>
+        <h3 class="info-card-title">سجل الإجازات</h3>
+      </div>
+      <div id="lv-history-wrap">
+        <div class="lv-empty"><span>🌴</span><p>لا توجد إجازات مسجّلة بعد</p></div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ══ العمل الاضافي ══ -->
@@ -796,6 +932,7 @@ function navigateTo(sectionId) {
   closeMobileNav();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (sectionId === 'calendar') setTimeout(initCalendar, 30);
+  if (sectionId === 'leaves')   setTimeout(initLeaves,   30);
 }
 document.querySelectorAll('.nav-link[data-section]').forEach(link =>
   link.addEventListener('click', e => { e.preventDefault(); navigateTo(link.dataset.section); }));
@@ -876,6 +1013,41 @@ function initCalendar() {
     calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
     renderCalGrid();
   });
+
+  /* زر اليوم */
+  document.getElementById('cal-go-today').addEventListener('click', () => {
+    const now = new Date();
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+    renderCalGrid();
+    setTimeout(() => {
+      const todayCell = document.querySelector('.cal-today');
+      if (todayCell) todayCell.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }, 80);
+  });
+
+  /* إغلاق لوحة اليوم */
+  document.getElementById('cdd-close').addEventListener('click', hideDayDetail);
+
+  /* النقر على خلية */
+  document.getElementById('cal-grid').addEventListener('click', (e) => {
+    const cell = e.target.closest('.cal-cell[data-day]');
+    if (!cell) return;
+
+    if (selectedCell) selectedCell.classList.remove('cal-selected');
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const d = +cell.dataset.day;
+    const date = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
+
+    if (date.getTime() === today.getTime()) {
+      hideDayDetail(); selectedCell = null; return;
+    }
+
+    selectedCell = cell;
+    cell.classList.add('cal-selected');
+    showDayDetail(date);
+  });
 }
 
 /* ── لقطة اليوم (الأربع ورديات) ── */
@@ -902,6 +1074,59 @@ function renderTodayAll() {
       </div>`;
   }).join('');
   document.getElementById('shifts-today-grid').innerHTML = html;
+}
+
+/* ── إحصائيات الشهر ── */
+function renderStats(empShift) {
+  let morning = 0, evening = 0, rest = 0;
+  const days = new Date(calYear, calMonth + 1, 0).getDate();
+  for (let d = 1; d <= days; d++) {
+    const t = shiftInfo(new Date(calYear, calMonth, d), empShift).type;
+    if      (t === 'morning') morning++;
+    else if (t === 'evening') evening++;
+    else                      rest++;
+  }
+  document.getElementById('stat-morning').textContent = morning;
+  document.getElementById('stat-evening').textContent = evening;
+  document.getElementById('stat-total').textContent   = morning + evening;
+  document.getElementById('stat-rest').textContent    = rest;
+  document.getElementById('stat-month-label').textContent = AR_MONTHS[calMonth] + ' ' + calYear;
+}
+
+/* ── لوحة اليوم المختار ── */
+let selectedCell = null;
+
+function showDayDetail(date) {
+  const grFmt = new Intl.DateTimeFormat('ar-SA', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const hiFmt = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('cdd-date-gr').textContent = grFmt.format(date);
+  document.getElementById('cdd-date-hi').textContent = '🕌 ' + hiFmt.format(date);
+
+  const empShift = DATA.shift || user.shift || 'أ';
+  const html = ['أ','ب','ج','د'].map(sh => {
+    const info = shiftInfo(date, sh);
+    const sc   = SHIFT_CLASSES[sh] || 'shift-a';
+    const mine = sh === empShift;
+    return `
+      <div class="cdd-card cdd-bg-${info.type} ${mine ? 'cdd-mine' : ''}">
+        <div class="cdd-card-top">
+          <span class="shift-badge ${sc}">وردية ${sh}</span>
+          ${mine ? '<span class="me-tag">أنا</span>' : ''}
+        </div>
+        <div class="cdd-icon">${info.icon}</div>
+        <div class="cdd-label">${info.label}</div>
+        <div class="cdd-sub">${info.sub}</div>
+        ${info.time ? `<div class="cdd-time">${info.time}</div>` : ''}
+      </div>`;
+  }).join('');
+  document.getElementById('cdd-grid').innerHTML = html;
+  document.getElementById('cal-day-detail').classList.remove('d-none');
+  document.getElementById('cal-day-detail').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function hideDayDetail() {
+  document.getElementById('cal-day-detail').classList.add('d-none');
+  if (selectedCell) { selectedCell.classList.remove('cal-selected'); selectedCell = null; }
 }
 
 /* ── التقويم الشهري ── */
@@ -935,7 +1160,7 @@ function renderCalGrid() {
     const isTod = date.getTime() === today.getTime();
     const hDay  = hijriFmt.format(date);
     html += `
-      <div class="cal-cell cal-${info.type} ${isTod ? 'cal-today' : ''}">
+      <div class="cal-cell cal-${info.type} ${isTod ? 'cal-today' : ''}" data-day="${d}">
         <div class="cal-cell-top">
           <span class="cal-icon">${info.icon}</span>
           <span class="cal-day-num">${d}</span>
@@ -947,12 +1172,207 @@ function renderCalGrid() {
   }
 
   document.getElementById('cal-grid').innerHTML = html;
+  renderStats(empShift);
+  hideDayDetail();
 }
 
 /* تشغيل التقويم عند الانتقال إليه — يُضاف في navigateTo أدناه */
 
 /* ════════════════════════════════════════════════
-   10. التهيئة الأولية
+   10. الاجازات
+   ════════════════════════════════════════════════ */
+
+const LV_KEY = () => '4x4_lvh_' + (user.empId || 'demo');
+
+function getLvHistory() {
+  try { return JSON.parse(localStorage.getItem(LV_KEY()) || '[]'); } catch { return []; }
+}
+function saveLvHistory(arr) { localStorage.setItem(LV_KEY(), JSON.stringify(arr)); }
+
+function lvUsed(type) {
+  return getLvHistory().filter(l => l.type === type).reduce((s, l) => s + l.days, 0);
+}
+function lvAvail(type) {
+  return Math.max(0, parseInt(DATA.leaves[type] || 0) - lvUsed(type));
+}
+
+/* ── ملخص الرصيد + رسم الجدول ── */
+function renderLvSummary() {
+  const type  = document.getElementById('lv-type').value;
+  const start = document.getElementById('lv-start').value;
+  const end   = document.getElementById('lv-end').value;
+  const errEl = document.getElementById('lv-error');
+
+  errEl.classList.add('d-none');
+  document.getElementById('lv-summary').classList.add('d-none');
+  document.getElementById('lv-schedule-card').classList.add('d-none');
+
+  if (!start || !end) return;
+
+  const s = new Date(start); s.setHours(0,0,0,0);
+  const e = new Date(end);   e.setHours(0,0,0,0);
+  if (e < s) {
+    errEl.textContent = '⚠️ تاريخ الانتهاء يجب أن يكون بعد تاريخ البداية';
+    errEl.classList.remove('d-none');
+    return;
+  }
+
+  const days   = Math.round((e - s) / 86400000) + 1;
+  const avail  = lvAvail(type);
+  const remain = avail - days;
+
+  document.getElementById('lv-dur-num').textContent    = days;
+  document.getElementById('lv-bal-avail').textContent  = avail + ' يوم';
+  document.getElementById('lv-bal-deduct').textContent = days + ' يوم';
+  document.getElementById('lv-bal-remain').textContent = remain + ' يوم';
+
+  const remWrap = document.getElementById('lv-bal-remain-wrap');
+  remWrap.querySelector('.lv-bal-val').classList.toggle('lv-val-negative', remain < 0);
+  document.getElementById('lv-bal-warn').classList.toggle('d-none', remain >= 0);
+  document.getElementById('lv-summary').classList.remove('d-none');
+
+  renderLvSchedule(start, end);
+}
+
+/* ── جدول الوردية خلال الإجازة ── */
+function renderLvSchedule(startStr, endStr) {
+  const shift   = DATA.shift || user.shift || 'أ';
+  const sc      = SHIFT_CLASSES[shift] || 'shift-a';
+  const badge   = document.getElementById('lv-sched-badge');
+  badge.textContent = 'وردية ' + shift;
+  badge.className   = 'shift-badge ' + sc;
+
+  const grFmt   = new Intl.DateTimeFormat('ar-SA', { day:'numeric', month:'long', year:'numeric' });
+  const hiFmt   = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { day:'numeric', month:'long', year:'numeric' });
+  const wkFmt   = new Intl.DateTimeFormat('ar-SA', { weekday:'long' });
+  const todayTs = new Date().setHours(0,0,0,0);
+
+  let rows = '';
+  let cur = new Date(startStr); cur.setHours(0,0,0,0);
+  const end = new Date(endStr); end.setHours(0,0,0,0);
+
+  while (cur <= end) {
+    const info   = shiftInfo(cur, shift);
+    const isTod  = cur.getTime() === todayTs;
+    rows += `
+      <tr class="lvsched-${info.type}${isTod ? ' lvsched-today' : ''}">
+        <td class="lvsched-dow">${wkFmt.format(cur)}</td>
+        <td>${grFmt.format(cur)}</td>
+        <td class="lvsched-hi">${hiFmt.format(cur)}</td>
+        <td><span class="lv-chip lv-chip-${info.type}">${info.icon} ${info.label}</span></td>
+        <td class="lvsched-sub">${info.sub}</td>
+        <td class="lvsched-time">${info.time || '—'}</td>
+      </tr>`;
+    cur = new Date(cur.getTime() + 86400000);
+  }
+
+  document.getElementById('lv-sched-body').innerHTML = rows;
+  document.getElementById('lv-schedule-card').classList.remove('d-none');
+}
+
+/* ── حفظ الإجازة ── */
+function saveLeaveFn() {
+  const type  = document.getElementById('lv-type').value;
+  const start = document.getElementById('lv-start').value;
+  const end   = document.getElementById('lv-end').value;
+  if (!start || !end) return;
+
+  const s = new Date(start); s.setHours(0,0,0,0);
+  const e = new Date(end);   e.setHours(0,0,0,0);
+  if (e < s) return;
+
+  const days     = Math.round((e - s) / 86400000) + 1;
+  const typeDef  = LEAVES_DEF.find(l => l.key === type);
+  const hist     = getLvHistory();
+  hist.push({ id:Date.now(), type, typeLabel:typeDef?.label||type, startDate:start, endDate:end, days });
+  saveLvHistory(hist);
+
+  document.getElementById('lv-start').value = '';
+  document.getElementById('lv-end').value   = '';
+  document.getElementById('lv-summary').classList.add('d-none');
+  document.getElementById('lv-schedule-card').classList.add('d-none');
+  renderLvHistory();
+  showToast('تم حفظ الإجازة بنجاح ✅');
+}
+
+/* ── سجل الإجازات ── */
+function renderLvHistory() {
+  const hist = getLvHistory();
+  const wrap = document.getElementById('lv-history-wrap');
+
+  if (!hist.length) {
+    wrap.innerHTML = '<div class="lv-empty"><span>🌴</span><p>لا توجد إجازات مسجّلة بعد</p></div>';
+    return;
+  }
+
+  const today  = new Date(); today.setHours(0,0,0,0);
+  const grFmt  = new Intl.DateTimeFormat('ar-SA', { day:'numeric', month:'short', year:'numeric' });
+
+  const rows = hist.slice().reverse().map(l => {
+    const s = new Date(l.startDate); s.setHours(0,0,0,0);
+    const e = new Date(l.endDate);   e.setHours(0,0,0,0);
+
+    let badge = '', detail = '', rowCls = '';
+
+    if (today > e) {
+      const ago = Math.ceil((today - e) / 86400000);
+      badge  = `<span class="lv-state past">✅ مستفاد منها</span>`;
+      detail = `انتهت منذ ${ago} يوم`;
+      rowCls = 'lv-hist-past';
+    } else if (today >= s && today <= e) {
+      const left = Math.ceil((e - today) / 86400000) + 1;
+      badge  = `<span class="lv-state active">🟢 أنت الآن في إجازة</span>`;
+      detail = `تنتهي بعد ${left} يوم`;
+      rowCls = 'lv-hist-active';
+    } else {
+      const left = Math.ceil((s - today) / 86400000);
+      badge  = `<span class="lv-state upcoming">🟡 قريباً</span>`;
+      detail = `تبدأ بعد ${left} يوم`;
+      rowCls = 'lv-hist-upcoming';
+    }
+
+    return `
+      <tr class="${rowCls}">
+        <td><span class="lv-type-chip">${l.typeLabel}</span></td>
+        <td>${grFmt.format(new Date(l.startDate))}</td>
+        <td>${grFmt.format(new Date(l.endDate))}</td>
+        <td><strong>${l.days}</strong> يوم</td>
+        <td>${badge}</td>
+        <td class="lv-detail">${detail}</td>
+        <td><button class="lv-del" data-id="${l.id}" title="حذف">🗑️</button></td>
+      </tr>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="lv-table-wrap">
+      <table class="lv-hist-table">
+        <thead><tr>
+          <th>النوع</th><th>البداية</th><th>الانتهاء</th>
+          <th>الأيام</th><th>الحالة</th><th>التفاصيل</th><th></th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+
+  wrap.querySelectorAll('.lv-del').forEach(btn => btn.addEventListener('click', () => {
+    saveLvHistory(getLvHistory().filter(l => l.id !== +btn.dataset.id));
+    renderLvHistory();
+  }));
+}
+
+/* ── تهيئة الإجازات عند الانتقال إليها ── */
+let lvReady = false;
+function initLeaves() {
+  renderLvHistory();
+  if (lvReady) return;
+  lvReady = true;
+  ['lv-type','lv-start','lv-end'].forEach(id =>
+    document.getElementById(id).addEventListener('change', renderLvSummary));
+  document.getElementById('lv-save-btn').addEventListener('click', saveLeaveFn);
+}
+
+/* ════════════════════════════════════════════════
+   11. التهيئة الأولية
    ════════════════════════════════════════════════ */
 renderAll();
 
