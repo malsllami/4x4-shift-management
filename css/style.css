@@ -1346,180 +1346,257 @@ html[dir="rtl"] .btn-card-edit { margin-right: 0; margin-left: auto; }
    CALENDAR
    ========================================================= */
 
+/* ── ألوان الحالات — متغيرات مركزية ── */
+:root {
+  /* صباح — دافئ عنبري */
+  --c-morning-bg1: #fffbeb; --c-morning-bg2: #fef3c7;
+  --c-morning-text: #78350f; --c-morning-border: #fcd34d;
+  --c-morning-icon: #d97706;
+  /* مساء — أزرق داكن */
+  --c-evening-bg1: #1e1b4b; --c-evening-bg2: #2e1065;
+  --c-evening-text: #e0e7ff; --c-evening-border: #6d28d9;
+  --c-evening-icon: #a78bfa;
+  /* راحة — أخضر منعش */
+  --c-rest-bg1: #f0fdf4; --c-rest-bg2: #dcfce7;
+  --c-rest-text: #14532d; --c-rest-border: #6ee7b7;
+  --c-rest-icon: #16a34a;
+}
+
 .today-date-label {
   font-size: 13px; font-weight: 600; color: var(--text-muted);
   margin-right: auto;
 }
 html[dir="rtl"] .today-date-label { margin-right: 0; margin-left: auto; }
 
-/* ── لقطة الورديات اليوم ── */
+/* ═══════════════════════════════════════
+   لقطة الورديات اليوم
+   ═══════════════════════════════════════ */
 .shifts-today-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  padding: 16px 20px;
+  gap: 14px;
+  padding: 18px 20px;
 }
 
 .sday-card {
-  background: var(--bg);
   border-radius: var(--radius-md);
-  padding: 14px;
-  display: flex; flex-direction: column; gap: 6px;
+  padding: 16px 14px 14px;
+  display: flex; flex-direction: column; gap: 7px;
   border: 2px solid transparent;
-  transition: border-color var(--t), box-shadow var(--t);
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+  overflow: hidden; position: relative;
+}
+.sday-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+/* ألوان بحسب الحالة */
+.sday-bg-morning {
+  background: linear-gradient(150deg, var(--c-morning-bg1) 0%, var(--c-morning-bg2) 100%);
+  border-color: var(--c-morning-border);
+  color: var(--c-morning-text);
+}
+.sday-bg-evening {
+  background: linear-gradient(150deg, var(--c-evening-bg1) 0%, var(--c-evening-bg2) 100%);
+  border-color: var(--c-evening-border);
+  color: var(--c-evening-text);
+}
+.sday-bg-rest {
+  background: linear-gradient(150deg, var(--c-rest-bg1) 0%, var(--c-rest-bg2) 100%);
+  border-color: var(--c-rest-border);
+  color: var(--c-rest-text);
 }
 
-.sday-card:hover { box-shadow: var(--shadow-sm); }
-
+/* بطاقة الموظف المسجّل */
 .sday-mine {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.25), var(--shadow-sm);
+}
+.sday-bg-evening.sday-mine {
+  box-shadow: 0 0 0 3px rgba(167,139,250,.4), var(--shadow-md);
+}
+
+.sday-icon {
+  font-size: 26px; line-height: 1;
 }
 
 .sday-head {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
 
 .me-tag {
   font-size: 10px; font-weight: 800;
   background: var(--primary);
   color: #fff;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: var(--radius-full);
 }
+.sday-bg-evening .me-tag { background: #818cf8; }
 
-.sday-type {
-  font-size: 22px; font-weight: 900;
-  line-height: 1;
+.sday-label {
+  font-size: 20px; font-weight: 900; line-height: 1;
 }
-.sday-morning { color: #1d4ed8; }
-.sday-evening { color: #0d9488; }
-.sday-rest    { color: #64748b; }
 
-.sday-sub  { font-size: 12px; font-weight: 600; color: var(--text-muted); }
-.sday-time { font-size: 12px; color: var(--text-muted); }
+.sday-sub {
+  font-size: 12px; font-weight: 700; opacity: .75;
+}
 
-/* ── شريط التنقل ── */
+.sday-time {
+  font-size: 11.5px; font-weight: 600;
+  background: rgba(0,0,0,.07);
+  padding: 3px 8px; border-radius: var(--radius-full);
+  display: inline-block; margin-top: 2px;
+}
+.sday-bg-evening .sday-time { background: rgba(255,255,255,.12); }
+
+/* ═══════════════════════════════════════
+   شريط التنقل بين الأشهر
+   ═══════════════════════════════════════ */
 .cal-nav-bar {
   display: flex; align-items: center; justify-content: center;
-  gap: 16px;
-  padding: 14px 20px;
+  gap: 16px; padding: 14px 20px;
   border-bottom: 1px solid var(--border);
 }
 
 .cal-nav-btn {
-  width: 36px; height: 36px;
-  background: var(--bg);
-  border: 1.5px solid var(--border);
+  width: 38px; height: 38px;
+  background: var(--bg); border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 18px; font-weight: 700;
   cursor: pointer; color: var(--text);
   display: flex; align-items: center; justify-content: center;
-  transition: background var(--t), border-color var(--t), border-radius var(--t);
+  transition: background var(--t), border-color var(--t), border-radius var(--t), color var(--t);
 }
 .cal-nav-btn:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
 .cal-nav-btn:active { border-radius: var(--radius-full) !important; }
 
 .cal-month-title {
   font-size: 17px; font-weight: 800; color: var(--text);
-  min-width: 160px; text-align: center;
+  min-width: 200px; text-align: center; line-height: 1.4;
+}
+.cal-hijri-month {
+  display: block;
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
 }
 
-/* ── شبكة التقويم ── */
-.cal-outer { padding: 12px 16px 0; overflow-x: auto; }
+/* ═══════════════════════════════════════
+   شبكة التقويم
+   ═══════════════════════════════════════ */
+.cal-outer { padding: 14px 16px 0; overflow-x: auto; }
 
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  min-width: 560px;
+  gap: 7px; min-width: 560px;
 }
 
 .cal-head {
   text-align: center;
   font-size: 12px; font-weight: 800;
-  color: var(--text-muted);
-  padding: 6px 2px;
+  color: var(--text-muted); padding: 6px 2px;
 }
 
 .cal-empty { background: transparent; }
 
 .cal-cell {
   border-radius: var(--radius-sm);
-  padding: 8px 6px 6px;
+  padding: 8px 5px 7px;
   display: flex; flex-direction: column; align-items: center;
-  gap: 2px;
-  cursor: default;
+  gap: 2px; cursor: default;
   transition: transform var(--t), box-shadow var(--t);
-  min-height: 72px;
+  min-height: 84px;
+  border: 1.5px solid transparent;
 }
-.cal-cell:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.cal-cell:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); z-index: 1; position: relative; }
 
-.cal-day-num {
-  font-size: 16px; font-weight: 800; line-height: 1;
-}
-.cal-day-lbl { font-size: 11.5px; font-weight: 700; }
-.cal-day-sub { font-size: 10px; font-weight: 500; opacity: .8; text-align: center; }
-
-/* ألوان الحالات */
+/* ── ألوان الخلايا ── */
 .cal-morning {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: linear-gradient(160deg, var(--c-morning-bg1) 0%, var(--c-morning-bg2) 100%);
+  color: var(--c-morning-text);
+  border-color: var(--c-morning-border);
 }
 .cal-evening {
-  background: #f0fdfa;
-  color: #0d9488;
+  background: linear-gradient(160deg, var(--c-evening-bg1) 0%, var(--c-evening-bg2) 100%);
+  color: var(--c-evening-text);
+  border-color: var(--c-evening-border);
 }
 .cal-rest {
-  background: #f8fafc;
-  color: #64748b;
+  background: linear-gradient(160deg, var(--c-rest-bg1) 0%, var(--c-rest-bg2) 100%);
+  color: var(--c-rest-text);
+  border-color: var(--c-rest-border);
 }
 
-/* اليوم الحالي */
+/* ── محتوى الخلية ── */
+.cal-cell-top {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; gap: 2px;
+}
+.cal-icon    { font-size: 13px; line-height: 1; }
+.cal-day-num { font-size: 15px; font-weight: 900; line-height: 1; }
+.cal-hijri   { font-size: 10px; font-weight: 700; opacity: .65; }
+.cal-day-lbl { font-size: 11px; font-weight: 800; }
+.cal-day-sub { font-size: 9.5px; font-weight: 600; opacity: .75; text-align: center; }
+
+/* ── اليوم الحالي ── */
 .cal-today {
   outline: 2.5px solid var(--primary);
-  outline-offset: 1px;
+  outline-offset: 2px;
   position: relative;
 }
-.cal-today .cal-day-num::after {
-  content: '';
-  display: block;
-  width: 5px; height: 5px;
+.cal-today.cal-evening { outline-color: #a5b4fc; }
+.cal-today .cal-day-num {
   background: var(--primary);
+  color: #fff;
+  width: 22px; height: 22px;
   border-radius: 50%;
-  margin: 2px auto 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
 }
+.cal-today.cal-evening .cal-day-num { background: #818cf8; }
 
-/* مفتاح الألوان */
+/* ═══════════════════════════════════════
+   مفتاح الألوان
+   ═══════════════════════════════════════ */
 .cal-legend {
   display: flex; align-items: center; gap: 20px;
-  padding: 14px 20px 18px;
-  flex-wrap: wrap;
+  padding: 14px 20px 20px; flex-wrap: wrap;
 }
 .cal-legend-item {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 12.5px; font-weight: 600; color: var(--text-muted);
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; font-weight: 700; color: var(--text-muted);
 }
 .cal-dot {
-  width: 14px; height: 14px;
-  border-radius: 4px;
-  flex-shrink: 0;
+  width: 28px; height: 20px;
+  border-radius: 6px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
 }
-.cal-dot.cal-morning { background: #eff6ff; border: 2px solid #93c5fd; }
-.cal-dot.cal-evening { background: #f0fdfa; border: 2px solid #5eead4; }
-.cal-dot.cal-rest    { background: #f8fafc; border: 2px solid #cbd5e1; }
+.cal-dot.cal-morning {
+  background: linear-gradient(135deg, var(--c-morning-bg1), var(--c-morning-bg2));
+  border: 1.5px solid var(--c-morning-border);
+}
+.cal-dot.cal-evening {
+  background: linear-gradient(135deg, var(--c-evening-bg1), var(--c-evening-bg2));
+  border: 1.5px solid var(--c-evening-border);
+}
+.cal-dot.cal-rest {
+  background: linear-gradient(135deg, var(--c-rest-bg1), var(--c-rest-bg2));
+  border: 1.5px solid var(--c-rest-border);
+}
 
-/* Responsive calendar */
+/* ═══════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════ */
 @media (max-width: 700px) {
-  .shifts-today-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
-  .sday-type { font-size: 18px; }
-  .cal-grid  { min-width: 340px; gap: 4px; }
-  .cal-cell  { min-height: 58px; padding: 6px 3px; }
+  .shifts-today-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
+  .sday-icon  { font-size: 22px; }
+  .sday-label { font-size: 17px; }
+  .cal-grid   { min-width: 330px; gap: 4px; }
+  .cal-cell   { min-height: 68px; padding: 6px 3px 5px; }
+  .cal-icon   { font-size: 11px; }
   .cal-day-num { font-size: 13px; }
-  .cal-day-lbl { font-size: 10px; }
-  .cal-day-sub { font-size: 9px; }
-  .cal-outer { padding: 8px 8px 0; }
+  .cal-today .cal-day-num { width: 18px; height: 18px; font-size: 10px; }
+  .cal-day-lbl { font-size: 9.5px; }
+  .cal-day-sub { font-size: 8.5px; }
+  .cal-outer  { padding: 8px 8px 0; }
+  .cal-month-title { font-size: 14px; min-width: 160px; }
 }
 
 @media (max-width: 400px) {

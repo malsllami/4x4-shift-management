@@ -371,15 +371,15 @@
       <!-- مفتاح الألوان -->
       <div class="cal-legend">
         <div class="cal-legend-item">
-          <span class="cal-dot cal-morning"></span>
+          <span class="cal-dot cal-morning">☀️</span>
           <span>دوام صباح <small>7ص — 7م</small></span>
         </div>
         <div class="cal-legend-item">
-          <span class="cal-dot cal-evening"></span>
+          <span class="cal-dot cal-evening">🌙</span>
           <span>دوام مساء <small>7م — 7ص</small></span>
         </div>
         <div class="cal-legend-item">
-          <span class="cal-dot cal-rest"></span>
+          <span class="cal-dot cal-rest">💤</span>
           <span>راحة</span>
         </div>
       </div>
@@ -834,14 +834,14 @@ const CAL_REF  = new Date('2026-06-16T00:00:00');
 const CAL_OFFS = { 'أ':0, 'ب':2, 'ج':4, 'د':6 };
 
 const CYCLE = [
-  { type:'morning', label:'صباح', sub:'اليوم الأول',  time:'7ص — 7م' },
-  { type:'morning', label:'صباح', sub:'اليوم الثاني', time:'7ص — 7م' },
-  { type:'evening', label:'مساء', sub:'اليوم الأول',  time:'7م — 7ص' },
-  { type:'evening', label:'مساء', sub:'اليوم الثاني', time:'7م — 7ص' },
-  { type:'rest',    label:'راحة', sub:'اليوم الأول',  time:''        },
-  { type:'rest',    label:'راحة', sub:'اليوم الثاني', time:''        },
-  { type:'rest',    label:'راحة', sub:'اليوم الثالث', time:''        },
-  { type:'rest',    label:'راحة', sub:'آخر يوم',      time:''        },
+  { type:'morning', label:'صباح', sub:'اليوم الأول',  time:'7ص — 7م', icon:'☀️' },
+  { type:'morning', label:'صباح', sub:'اليوم الثاني', time:'7ص — 7م', icon:'☀️' },
+  { type:'evening', label:'مساء', sub:'اليوم الأول',  time:'7م — 7ص', icon:'🌙' },
+  { type:'evening', label:'مساء', sub:'اليوم الثاني', time:'7م — 7ص', icon:'🌙' },
+  { type:'rest',    label:'راحة', sub:'اليوم الأول',  time:'',         icon:'💤' },
+  { type:'rest',    label:'راحة', sub:'اليوم الثاني', time:'',         icon:'💤' },
+  { type:'rest',    label:'راحة', sub:'اليوم الثالث', time:'',         icon:'💤' },
+  { type:'rest',    label:'راحة', sub:'آخر يوم',      time:'',         icon:'🏖️' },
 ];
 
 const AR_DAYS_SHORT = ['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
@@ -890,14 +890,15 @@ function renderTodayAll() {
     const sc   = SHIFT_CLASSES[sh] || 'shift-a';
     const mine = sh === empShift;
     return `
-      <div class="sday-card ${mine ? 'sday-mine' : ''}">
+      <div class="sday-card sday-bg-${info.type} ${mine ? 'sday-mine' : ''}">
+        <div class="sday-icon">${info.icon}</div>
         <div class="sday-head">
           <span class="shift-badge ${sc}">وردية ${sh}</span>
           ${mine ? '<span class="me-tag">أنا</span>' : ''}
         </div>
-        <div class="sday-type sday-${info.type}">${info.label}</div>
+        <div class="sday-label">${info.label}</div>
         <div class="sday-sub">${info.sub}</div>
-        ${info.time ? `<div class="sday-time">⏰ ${info.time}</div>` : '<div class="sday-time" style="opacity:0">—</div>'}
+        ${info.time ? `<div class="sday-time">${info.time}</div>` : ''}
       </div>`;
   }).join('');
   document.getElementById('shifts-today-grid').innerHTML = html;
@@ -912,8 +913,10 @@ function renderCalGrid() {
   label.textContent = 'وردية ' + empShift;
   label.className   = 'shift-badge ' + sc;
 
-  document.getElementById('cal-month-title').textContent =
-    AR_MONTHS[calMonth] + ' ' + calYear;
+  const hijriMonth = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',
+    { month:'long', year:'numeric' }).format(new Date(calYear, calMonth, 15));
+  document.getElementById('cal-month-title').innerHTML =
+    `${AR_MONTHS[calMonth]} ${calYear} <small class="cal-hijri-month">${hijriMonth}</small>`;
 
   const today    = new Date(); today.setHours(0,0,0,0);
   const firstDay = new Date(calYear, calMonth, 1);
@@ -924,13 +927,20 @@ function renderCalGrid() {
 
   for (let i = 0; i < startDow; i++) html += '<div class="cal-cell cal-empty"></div>';
 
+  const hijriFmt = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { day:'numeric' });
+
   for (let d = 1; d <= lastDate; d++) {
-    const date = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
+    const date  = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
     const info  = shiftInfo(date, empShift);
     const isTod = date.getTime() === today.getTime();
+    const hDay  = hijriFmt.format(date);
     html += `
       <div class="cal-cell cal-${info.type} ${isTod ? 'cal-today' : ''}">
-        <span class="cal-day-num">${d}</span>
+        <div class="cal-cell-top">
+          <span class="cal-icon">${info.icon}</span>
+          <span class="cal-day-num">${d}</span>
+        </div>
+        <span class="cal-hijri">${hDay}</span>
         <span class="cal-day-lbl">${info.label}</span>
         <span class="cal-day-sub">${info.sub}</span>
       </div>`;
