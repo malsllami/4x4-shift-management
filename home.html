@@ -8,20 +8,17 @@
 </head>
 <body class="home-body">
 
-<!-- ===================================================
+<!-- ====================================================
      HEADER
-     =================================================== -->
+     ==================================================== -->
 <header class="site-header">
   <div class="header-inner">
-
-    <!-- Logo -->
     <div class="header-logo">
       <span class="header-logo-icon">⚙️</span>
       <span class="header-logo-text">4x4 إدارة الورديات</span>
     </div>
 
-    <!-- Desktop Nav -->
-    <nav class="desktop-nav" id="desktop-nav" aria-label="القائمة الرئيسية">
+    <nav class="desktop-nav" id="desktop-nav">
       <a class="nav-link active" data-section="employee" href="#">لوحة الموظف</a>
       <a class="nav-link d-none" data-section="admin"    href="#" id="nav-admin">—</a>
       <a class="nav-link" data-section="calendar"  href="#">تقويم الورديات</a>
@@ -30,7 +27,6 @@
       <a class="nav-link" data-section="settings"  href="#">الاعدادات</a>
     </nav>
 
-    <!-- User + Hamburger -->
     <div class="header-end">
       <div class="header-user-info">
         <div class="header-avatar" id="header-avatar">م</div>
@@ -45,11 +41,9 @@
         <span class="ham-line"></span>
       </button>
     </div>
-
   </div>
 
-  <!-- Mobile Nav Dropdown -->
-  <nav class="mobile-nav" id="mobile-nav" aria-label="القائمة المنسدلة">
+  <nav class="mobile-nav" id="mobile-nav">
     <a class="nav-link active" data-section="employee" href="#">لوحة الموظف</a>
     <a class="nav-link d-none" data-section="admin"    href="#" id="mob-nav-admin">—</a>
     <a class="nav-link" data-section="calendar"  href="#">تقويم الورديات</a>
@@ -57,80 +51,269 @@
     <a class="nav-link" data-section="overtime"  href="#">العمل الاضافي</a>
     <a class="nav-link" data-section="settings"  href="#">الاعدادات</a>
     <div class="mobile-nav-footer">
-      <button class="btn btn-logout" id="mob-logout-btn">
-        <span>🚪</span> تسجيل الخروج
-      </button>
+      <button class="btn btn-logout" id="mob-logout-btn">🚪 تسجيل الخروج</button>
     </div>
   </nav>
 </header>
 
-<!-- ===================================================
+<!-- ====================================================
      MAIN CONTENT
-     =================================================== -->
+     ==================================================== -->
 <main class="main-content">
 
-  <!-- ── لوحة الموظف ── -->
+  <!-- ══ لوحة الموظف ══ -->
   <section id="section-employee" class="page-section active">
     <div class="section-header">
       <h1 class="section-title">لوحة الموظف</h1>
-      <button class="btn btn-logout desktop-only" id="logout-btn">
-        <span>🚪</span> خروج
-      </button>
+      <button class="btn btn-logout desktop-only" id="logout-btn">🚪 خروج</button>
     </div>
 
-    <!-- بطاقة الموظف -->
-    <div class="emp-card" id="emp-card">
-      <div class="emp-card-header" id="emp-card-header">
-        <div class="emp-avatar-wrap">
-          <div class="emp-avatar" id="emp-avatar">م</div>
+    <!-- ─── البطاقة الشخصية ─── -->
+    <div class="emp-hero-card" id="emp-hero-card">
+      <div class="emp-hero-bg" id="emp-hero-bg"></div>
+      <div class="emp-hero-body">
+        <div class="emp-hero-avatar" id="emp-hero-avatar">م</div>
+        <div class="emp-hero-info">
+          <h2 class="emp-hero-name" id="emp-hero-name">—</h2>
+          <div class="emp-hero-meta">
+            <span class="emp-hero-id">🪪 <span id="emp-hero-id">—</span></span>
+            <span class="shift-badge" id="emp-hero-shift">—</span>
+          </div>
         </div>
-        <div class="emp-card-shift-bg" id="emp-shift-bg"></div>
+        <button class="btn-card-edit" id="btn-edit-basic">✏️ تعديل</button>
       </div>
-      <div class="emp-card-body">
-        <h2 class="emp-name" id="emp-name">—</h2>
-        <div class="emp-meta-grid">
-          <div class="emp-meta-item">
-            <span class="emp-meta-icon">🪪</span>
-            <div>
-              <div class="emp-meta-label">الرقم الوظيفي</div>
-              <div class="emp-meta-value" id="emp-id">—</div>
-            </div>
+
+      <!-- Edit mode: البيانات الأساسية -->
+      <div class="card-edit-zone d-none" id="edit-zone-basic">
+        <div class="edit-grid-2">
+          <div class="form-group">
+            <label class="form-label">الاسم</label>
+            <input type="text" class="form-control" id="ei-name" />
           </div>
-          <div class="emp-meta-item">
-            <span class="emp-meta-icon">🔄</span>
-            <div>
-              <div class="emp-meta-label">الوردية</div>
-              <div class="emp-meta-value">
-                <span class="shift-badge" id="emp-shift">—</span>
-              </div>
-            </div>
+          <div class="form-group">
+            <label class="form-label">
+              الرقم الوظيفي
+              <span class="locked-tag">🔒 غير قابل للتعديل</span>
+            </label>
+            <input type="text" class="form-control locked-input" id="ei-empId" readonly />
           </div>
-          <div class="emp-meta-item">
-            <span class="emp-meta-icon">📱</span>
-            <div>
-              <div class="emp-meta-label">رقم الجوال</div>
-              <div class="emp-meta-value" id="emp-phone">—</div>
-            </div>
+          <div class="form-group">
+            <label class="form-label">الجوال</label>
+            <input type="tel" class="form-control" id="ei-phone" inputmode="numeric" />
           </div>
-          <div class="emp-meta-item">
-            <span class="emp-meta-icon">🏷️</span>
-            <div>
-              <div class="emp-meta-label">الدور الوظيفي</div>
-              <div class="emp-meta-value" id="emp-role">—</div>
-            </div>
+          <div class="form-group">
+            <label class="form-label">الوردية</label>
+            <select class="form-control form-select" id="ei-shift">
+              <option value="أ">وردية أ</option>
+              <option value="ب">وردية ب</option>
+              <option value="ج">وردية ج</option>
+              <option value="د">وردية د</option>
+            </select>
           </div>
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-primary" id="save-basic">💾 حفظ</button>
+          <button class="btn btn-secondary" id="cancel-basic">إلغاء</button>
         </div>
       </div>
     </div>
 
-    <!-- placeholder بقية المحتوى -->
-    <div class="placeholder-card">
-      <div class="placeholder-icon">📊</div>
-      <p>ستُضاف إحصائيات الموظف هنا</p>
+    <!-- ─── تواريخ البطاقات ─── -->
+    <div class="info-card" id="card-expiry">
+      <div class="info-card-head">
+        <span class="info-card-icon">🪪</span>
+        <h3 class="info-card-title">تواريخ البطاقات</h3>
+        <button class="btn-card-edit" id="btn-edit-expiry">✏️ تعديل</button>
+      </div>
+
+      <!-- View -->
+      <div id="view-expiry">
+        <div class="expiry-grid">
+          <!-- بطاقة العمل -->
+          <div class="expiry-item">
+            <div class="expiry-label">📋 بطاقة العمل</div>
+            <div class="expiry-date" id="v-work-date">غير محدد</div>
+            <div class="expiry-remaining" id="v-work-rem">—</div>
+          </div>
+          <!-- بطاقة المصدر -->
+          <div class="expiry-item">
+            <div class="expiry-label">📄 بطاقة المصدر</div>
+            <div class="expiry-date" id="v-src-date">غير محدد</div>
+            <div class="expiry-remaining" id="v-src-rem">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit -->
+      <div class="card-edit-zone d-none" id="edit-zone-expiry">
+        <div class="edit-grid-2">
+          <div class="form-group">
+            <label class="form-label">تاريخ انتهاء بطاقة العمل</label>
+            <input type="date" class="form-control" id="ei-work-date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">تاريخ انتهاء بطاقة المصدر</label>
+            <input type="date" class="form-control" id="ei-src-date" />
+          </div>
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-primary" id="save-expiry">💾 حفظ</button>
+          <button class="btn btn-secondary" id="cancel-expiry">إلغاء</button>
+        </div>
+      </div>
     </div>
+
+    <!-- ─── المناطق والمراكز ─── -->
+    <div class="info-card" id="card-region">
+      <div class="info-card-head">
+        <span class="info-card-icon">📍</span>
+        <h3 class="info-card-title">المناطق والمراكز</h3>
+        <button class="btn-card-edit" id="btn-edit-region">✏️ تعديل</button>
+      </div>
+
+      <!-- View -->
+      <div id="view-region">
+        <div class="info-row-grid">
+          <div class="info-row-item">
+            <span class="info-row-label">المنطقة</span>
+            <span class="info-row-val" id="v-region">غير محدد</span>
+          </div>
+          <div class="info-row-item">
+            <span class="info-row-label">المركز</span>
+            <span class="info-row-val" id="v-center">غير محدد</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit -->
+      <div class="card-edit-zone d-none" id="edit-zone-region">
+        <div class="edit-grid-2">
+          <div class="form-group">
+            <label class="form-label">المنطقة</label>
+            <input type="text" class="form-control" id="ei-region" placeholder="مثال: الرياض" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">المركز</label>
+            <input type="text" class="form-control" id="ei-center" placeholder="مثال: مركز الشمال" />
+          </div>
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-primary" id="save-region">💾 حفظ</button>
+          <button class="btn btn-secondary" id="cancel-region">إلغاء</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── المقاسات والعدد ─── -->
+    <div class="info-card" id="card-sizes">
+      <div class="info-card-head">
+        <span class="info-card-icon">👕</span>
+        <h3 class="info-card-title">المقاسات والعدد</h3>
+        <button class="btn-card-edit" id="btn-edit-sizes">✏️ تعديل</button>
+      </div>
+
+      <!-- View -->
+      <div id="view-sizes">
+        <div class="sizes-table-wrap">
+          <table class="sizes-table">
+            <thead>
+              <tr>
+                <th>القطعة</th>
+                <th>المقاس</th>
+                <th>العدد</th>
+              </tr>
+            </thead>
+            <tbody id="sizes-tbody-view">
+              <!-- تُملأ بـ JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Edit -->
+      <div class="card-edit-zone d-none" id="edit-zone-sizes">
+        <div class="sizes-table-wrap">
+          <table class="sizes-table">
+            <thead>
+              <tr>
+                <th>القطعة</th>
+                <th>المقاس</th>
+                <th>العدد</th>
+              </tr>
+            </thead>
+            <tbody id="sizes-tbody-edit">
+              <!-- تُملأ بـ JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-primary" id="save-sizes">💾 حفظ</button>
+          <button class="btn btn-secondary" id="cancel-sizes">إلغاء</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── أرصدة الاجازات ─── -->
+    <div class="info-card" id="card-leaves">
+      <div class="info-card-head">
+        <span class="info-card-icon">🌴</span>
+        <h3 class="info-card-title">أرصدة الاجازات</h3>
+        <button class="btn-card-edit" id="btn-edit-leaves">✏️ تعديل</button>
+      </div>
+
+      <!-- View -->
+      <div id="view-leaves">
+        <div class="leaves-grid" id="leaves-grid-view">
+          <!-- تُملأ بـ JS -->
+        </div>
+      </div>
+
+      <!-- Edit -->
+      <div class="card-edit-zone d-none" id="edit-zone-leaves">
+        <div class="leaves-grid" id="leaves-grid-edit">
+          <!-- تُملأ بـ JS -->
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-primary" id="save-leaves">💾 حفظ</button>
+          <button class="btn btn-secondary" id="cancel-leaves">إلغاء</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── جدول البيانات الشامل ─── -->
+    <div class="info-card" id="card-summary">
+      <div class="info-card-head">
+        <span class="info-card-icon">📊</span>
+        <h3 class="info-card-title">جدول البيانات الشامل</h3>
+      </div>
+      <div class="summary-table-wrap">
+        <table class="summary-table" id="summary-table">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>الرقم الوظيفي</th>
+              <th>الجوال</th>
+              <th>الوردية</th>
+              <th>انتهاء بطاقة العمل</th>
+              <th>المتبقي (العمل)</th>
+              <th>انتهاء بطاقة المصدر</th>
+              <th>المتبقي (المصدر)</th>
+              <th>المنطقة</th>
+              <th>المركز</th>
+              <th>المقاسات</th>
+              <th>أرصدة الاجازات</th>
+            </tr>
+          </thead>
+          <tbody id="summary-tbody">
+            <!-- تُملأ بـ JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </section>
 
-  <!-- ── لوحة المشرف/المدير/الاداري ── -->
+  <!-- ══ لوحة المشرف/المدير/الاداري ══ -->
   <section id="section-admin" class="page-section">
     <div class="section-header">
       <h1 class="section-title" id="admin-section-title">لوحة المشرف</h1>
@@ -141,44 +324,36 @@
     </div>
   </section>
 
-  <!-- ── تقويم الورديات ── -->
+  <!-- ══ تقويم الورديات ══ -->
   <section id="section-calendar" class="page-section">
-    <div class="section-header">
-      <h1 class="section-title">تقويم الورديات</h1>
-    </div>
+    <div class="section-header"><h1 class="section-title">تقويم الورديات</h1></div>
     <div class="placeholder-card">
       <div class="placeholder-icon">📅</div>
       <p>سيُضاف تقويم الورديات هنا</p>
     </div>
   </section>
 
-  <!-- ── الاجازات ── -->
+  <!-- ══ الاجازات ══ -->
   <section id="section-leaves" class="page-section">
-    <div class="section-header">
-      <h1 class="section-title">الاجازات</h1>
-    </div>
+    <div class="section-header"><h1 class="section-title">الاجازات</h1></div>
     <div class="placeholder-card">
       <div class="placeholder-icon">🌴</div>
       <p>ستُضاف إدارة الاجازات هنا</p>
     </div>
   </section>
 
-  <!-- ── العمل الاضافي ── -->
+  <!-- ══ العمل الاضافي ══ -->
   <section id="section-overtime" class="page-section">
-    <div class="section-header">
-      <h1 class="section-title">العمل الاضافي</h1>
-    </div>
+    <div class="section-header"><h1 class="section-title">العمل الاضافي</h1></div>
     <div class="placeholder-card">
       <div class="placeholder-icon">⏰</div>
       <p>ستُضاف إدارة العمل الإضافي هنا</p>
     </div>
   </section>
 
-  <!-- ── الاعدادات ── -->
+  <!-- ══ الاعدادات ══ -->
   <section id="section-settings" class="page-section">
-    <div class="section-header">
-      <h1 class="section-title">الاعدادات</h1>
-    </div>
+    <div class="section-header"><h1 class="section-title">الاعدادات</h1></div>
     <div class="placeholder-card">
       <div class="placeholder-icon">⚙️</div>
       <p>ستُضاف إعدادات النظام هنا</p>
@@ -187,131 +362,427 @@
 
 </main>
 
+<!-- ====================================================
+     SCRIPTS
+     ==================================================== -->
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script>
-/* ===================================================
-   بيانات الجلسة
-   =================================================== */
+
+/* ════════════════════════════════════════════════
+   0. الجلسة
+   ════════════════════════════════════════════════ */
 const user = Auth.requireAuth();
 if (!user) throw new Error('no session');
 
-/* ===================================================
-   ملء بيانات المستخدم
-   =================================================== */
+const STORAGE_KEY   = '4x4_emp_' + user.empId;
 const SHIFT_CLASSES = { 'أ':'shift-a','ب':'shift-b','ج':'shift-c','د':'shift-d' };
 const SHIFT_COLORS  = { 'أ':'#2563eb','ب':'#0d9488','ج':'#15803d','د':'#7c3aed' };
 
-const ROLE_LABELS = {
-  'موظف':   'موظف',
-  'مشرف':   'مشرف',
-  'مدير':   'مدير',
-  'اداري':  'اداري',
-};
+/* ════════════════════════════════════════════════
+   1. بيانات الموظف (localStorage)
+   ════════════════════════════════════════════════ */
 
-function initUserUI() {
-  const initials = user.name ? user.name.trim().charAt(0) : 'م';
-  const shiftCls = SHIFT_CLASSES[user.shift] || 'shift-a';
-  const shiftCol = SHIFT_COLORS[user.shift]  || '#2563eb';
+const SIZES_ITEMS = [
+  { key:'shirt',  label:'قميص'      },
+  { key:'pants',  label:'بنطلون'    },
+  { key:'jacket', label:'جاكيت'     },
+  { key:'shoes',  label:'حذاء'      },
+  { key:'cap',    label:'قبعة'      },
+  { key:'vest',   label:'سترة أمان' },
+];
 
-  /* Header */
-  document.getElementById('header-avatar').textContent = initials;
-  document.getElementById('header-name').textContent   = user.name  || '';
-  document.getElementById('header-role').textContent   = user.role  || '';
+const LEAVES_DEF = [
+  { key:'annual',    label:'إجازة سنوية',    unit:'يوم'  },
+  { key:'sick',      label:'إجازة مرضية',    unit:'يوم'  },
+  { key:'marriage',  label:'إجازة زواج',     unit:'يوم'  },
+  { key:'birth',     label:'إجازة ولادة',    unit:'يوم'  },
+  { key:'death',     label:'إجازة وفاة',     unit:'يوم'  },
+  { key:'exam',      label:'إجازة امتحان',   unit:'يوم'  },
+  { key:'shiftSwap', label:'تبادل ورديات',   unit:'مرة'  },
+];
 
-  /* بطاقة الموظف */
-  document.getElementById('emp-avatar').textContent    = initials;
-  document.getElementById('emp-name').textContent      = user.name  || '—';
-  document.getElementById('emp-id').textContent        = user.empId || '—';
-  document.getElementById('emp-phone').textContent     = user.phone || '—';
-  document.getElementById('emp-role').textContent      = user.role  || '—';
+function loadData() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const base = {
+    name:          user.name  || '',
+    empId:         user.empId || '',
+    phone:         user.phone || '',
+    shift:         user.shift || 'أ',
+    workCardDate:  '',
+    srcCardDate:   '',
+    region:        '',
+    center:        '',
+    sizes:  Object.fromEntries(SIZES_ITEMS.map(i => [i.key, { size:'', count:'' }])),
+    leaves: Object.fromEntries(LEAVES_DEF.map(i => [i.key, ''])),
+  };
+  return saved ? { ...base, ...JSON.parse(saved) } : base;
+}
 
-  const shiftEl = document.getElementById('emp-shift');
-  shiftEl.textContent = 'وردية ' + (user.shift || '');
-  shiftEl.className   = 'shift-badge ' + shiftCls;
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  Auth.setSession({ ...user, name: data.name, phone: data.phone, shift: data.shift });
+}
 
-  /* لون رأس البطاقة حسب الوردية */
-  document.getElementById('emp-card-header').style.background =
-    `linear-gradient(135deg, ${shiftCol}dd, ${shiftCol}99)`;
+let DATA = loadData();
+
+/* ════════════════════════════════════════════════
+   2. حساب المدة المتبقية لانتهاء البطاقة
+   ════════════════════════════════════════════════ */
+function calcExpiry(dateStr) {
+  if (!dateStr) return { text: 'غير محدد', cls: '' };
+  const today  = new Date(); today.setHours(0,0,0,0);
+  const expiry = new Date(dateStr); expiry.setHours(0,0,0,0);
+  const days   = Math.round((expiry - today) / 86400000);
+
+  if (days < 0)   return { text: `منتهية منذ ${Math.abs(days)} يوم`, cls: 'exp-danger' };
+  if (days === 0) return { text: 'تنتهي اليوم!',                      cls: 'exp-danger' };
+  if (days <= 30) return { text: `${days} يوم متبقي`,                 cls: 'exp-danger' };
+  if (days <= 90) return { text: `${days} يوم (${Math.ceil(days/30)} أشهر)`, cls: 'exp-warn' };
+
+  const m = Math.floor(days / 30), d = days % 30;
+  const txt = m + ' شهر' + (d ? ' و' + d + ' يوم' : '');
+  return { text: txt, cls: days <= 180 ? 'exp-caution' : 'exp-safe' };
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'غير محدد';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('ar-SA', { year:'numeric', month:'long', day:'numeric' });
+}
+
+/* ════════════════════════════════════════════════
+   3. رسم الواجهة
+   ════════════════════════════════════════════════ */
+
+function renderAll() {
+  renderHero();
+  renderExpiry();
+  renderRegion();
+  renderSizes();
+  renderLeaves();
+  renderSummary();
+}
+
+/* ── البطاقة الشخصية ── */
+function renderHero() {
+  const d = DATA;
+  const sc = SHIFT_CLASSES[d.shift] || 'shift-a';
+  const col = SHIFT_COLORS[d.shift] || '#2563eb';
+
+  document.getElementById('header-avatar').textContent  = (d.name||'م').charAt(0);
+  document.getElementById('header-name').textContent    = d.name  || '';
+  document.getElementById('header-role').textContent    = user.role || '';
+  document.getElementById('emp-hero-avatar').textContent = (d.name||'م').charAt(0);
+  document.getElementById('emp-hero-name').textContent  = d.name || '—';
+  document.getElementById('emp-hero-id').textContent    = d.empId || '—';
+
+  const shEl = document.getElementById('emp-hero-shift');
+  shEl.textContent = 'وردية ' + (d.shift||'');
+  shEl.className   = 'shift-badge ' + sc;
+
+  document.getElementById('emp-hero-bg').style.background =
+    `linear-gradient(135deg, ${col}ee 0%, ${col}88 100%)`;
+  document.getElementById('emp-hero-avatar').style.color = col;
 
   /* القائمة الإدارية */
   const role = user.role || '';
-  const adminNav   = document.getElementById('nav-admin');
-  const mobAdminNav = document.getElementById('mob-nav-admin');
-  const adminSection = document.getElementById('admin-section-title');
-
   if (role === 'مشرف' || role === 'مدير' || role === 'اداري') {
-    const label = ROLE_LABELS[role] ? `لوحة ${ROLE_LABELS[role]}` : 'لوحة الإدارة';
-    adminNav.textContent    = label;
-    mobAdminNav.textContent = label;
-    adminSection.textContent = label;
-    adminNav.classList.remove('d-none');
-    mobAdminNav.classList.remove('d-none');
+    const lbl = `لوحة ${role}`;
+    ['nav-admin','mob-nav-admin'].forEach(id => {
+      const el = document.getElementById(id);
+      el.textContent = lbl;
+      el.classList.remove('d-none');
+    });
+    document.getElementById('admin-section-title').textContent = lbl;
   }
 }
 
-initUserUI();
+/* ── تواريخ البطاقات ── */
+function renderExpiry() {
+  const d = DATA;
+  const wk = calcExpiry(d.workCardDate);
+  const sr = calcExpiry(d.srcCardDate);
 
-/* ===================================================
-   التنقل بين الأقسام
-   =================================================== */
-function navigateTo(sectionId) {
-  /* إخفاء جميع الأقسام */
-  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  document.getElementById('v-work-date').textContent = formatDate(d.workCardDate);
+  document.getElementById('v-src-date').textContent  = formatDate(d.srcCardDate);
 
-  /* إظهار القسم المطلوب */
-  const target = document.getElementById('section-' + sectionId);
-  if (target) target.classList.add('active');
-
-  /* تفعيل الرابط النشط */
-  document.querySelectorAll(`.nav-link[data-section="${sectionId}"]`)
-    .forEach(a => a.classList.add('active'));
-
-  /* إغلاق القائمة المنسدلة في الجوال */
-  closeMobileNav();
-
-  /* تمرير للأعلى */
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setExpiryBadge('v-work-rem', wk);
+  setExpiryBadge('v-src-rem',  sr);
 }
 
-document.querySelectorAll('.nav-link[data-section]').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    navigateTo(link.dataset.section);
-  });
+function setExpiryBadge(id, info) {
+  const el = document.getElementById(id);
+  el.textContent = info.text;
+  el.className   = 'expiry-badge ' + info.cls;
+}
+
+/* ── المناطق والمراكز ── */
+function renderRegion() {
+  document.getElementById('v-region').textContent = DATA.region || 'غير محدد';
+  document.getElementById('v-center').textContent = DATA.center || 'غير محدد';
+}
+
+/* ── المقاسات (view) ── */
+function renderSizes() {
+  const tbody = document.getElementById('sizes-tbody-view');
+  tbody.innerHTML = SIZES_ITEMS.map(item => {
+    const s = DATA.sizes[item.key] || {};
+    return `<tr>
+      <td>${item.label}</td>
+      <td>${s.size  || '—'}</td>
+      <td>${s.count || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── المقاسات (edit inputs) ── */
+function buildSizesEdit() {
+  const tbody = document.getElementById('sizes-tbody-edit');
+  tbody.innerHTML = SIZES_ITEMS.map(item => {
+    const s = DATA.sizes[item.key] || {};
+    return `<tr>
+      <td><strong>${item.label}</strong></td>
+      <td><input type="text" class="form-control tbl-input"
+           id="size-s-${item.key}" value="${s.size||''}"
+           placeholder="المقاس" /></td>
+      <td><input type="number" class="form-control tbl-input"
+           id="size-c-${item.key}" value="${s.count||''}"
+           placeholder="العدد" min="0" /></td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── أرصدة الاجازات (view) ── */
+function renderLeaves() {
+  document.getElementById('leaves-grid-view').innerHTML = LEAVES_DEF.map(l =>
+    `<div class="leave-item">
+       <span class="leave-label">${l.label}</span>
+       <span class="leave-val">${DATA.leaves[l.key] || '0'} ${l.unit}</span>
+     </div>`
+  ).join('');
+}
+
+/* ── أرصدة الاجازات (edit inputs) ── */
+function buildLeavesEdit() {
+  document.getElementById('leaves-grid-edit').innerHTML = LEAVES_DEF.map(l =>
+    `<div class="form-group">
+       <label class="form-label">${l.label} (${l.unit})</label>
+       <input type="number" class="form-control" id="ei-leave-${l.key}"
+              value="${DATA.leaves[l.key]||''}" min="0" placeholder="0" />
+     </div>`
+  ).join('');
+}
+
+/* ── جدول البيانات الشامل ── */
+function renderSummary() {
+  const d    = DATA;
+  const wk   = calcExpiry(d.workCardDate);
+  const sr   = calcExpiry(d.srcCardDate);
+  const sc   = SHIFT_CLASSES[d.shift] || 'shift-a';
+
+  const sizesText = SIZES_ITEMS
+    .map(i => {
+      const s = d.sizes[i.key] || {};
+      return (s.size || s.count)
+        ? `${i.label}: ${s.size||'—'} × ${s.count||'0'}`
+        : null;
+    })
+    .filter(Boolean).join(' | ') || '—';
+
+  const leavesText = LEAVES_DEF
+    .map(l => `${l.label}: ${d.leaves[l.key]||'0'}`)
+    .join(' | ');
+
+  document.getElementById('summary-tbody').innerHTML = `
+    <tr>
+      <td>${d.name||'—'}</td>
+      <td>${d.empId||'—'}</td>
+      <td>${d.phone||'—'}</td>
+      <td><span class="shift-badge ${sc}">وردية ${d.shift||'—'}</span></td>
+      <td>${formatDate(d.workCardDate)}</td>
+      <td><span class="expiry-badge ${wk.cls}">${wk.text}</span></td>
+      <td>${formatDate(d.srcCardDate)}</td>
+      <td><span class="expiry-badge ${sr.cls}">${sr.text}</span></td>
+      <td>${d.region||'—'}</td>
+      <td>${d.center||'—'}</td>
+      <td class="td-multiline">${sizesText}</td>
+      <td class="td-multiline">${leavesText}</td>
+    </tr>`;
+}
+
+/* ════════════════════════════════════════════════
+   4. منطق تعديل/حفظ/إلغاء
+   ════════════════════════════════════════════════ */
+
+function openEdit(viewId, editId) {
+  document.getElementById(viewId).classList.add('d-none');
+  document.getElementById(editId).classList.remove('d-none');
+}
+
+function closeEdit(viewId, editId) {
+  document.getElementById(viewId).classList.remove('d-none');
+  document.getElementById(editId).classList.add('d-none');
+}
+
+/* ── البيانات الأساسية ── */
+document.getElementById('btn-edit-basic').addEventListener('click', () => {
+  document.getElementById('ei-name').value   = DATA.name;
+  document.getElementById('ei-empId').value  = DATA.empId;
+  document.getElementById('ei-phone').value  = DATA.phone;
+  document.getElementById('ei-shift').value  = DATA.shift;
+  openEdit('emp-hero-body', 'edit-zone-basic');
+  document.querySelector('.emp-hero-body').classList.add('d-none');
+  document.getElementById('edit-zone-basic').classList.remove('d-none');
+});
+document.getElementById('save-basic').addEventListener('click', () => {
+  DATA.name  = document.getElementById('ei-name').value.trim();
+  DATA.phone = document.getElementById('ei-phone').value.trim();
+  DATA.shift = document.getElementById('ei-shift').value;
+  saveData(DATA);
+  document.querySelector('.emp-hero-body').classList.remove('d-none');
+  document.getElementById('edit-zone-basic').classList.add('d-none');
+  renderAll();
+  showToast('تم حفظ البيانات الأساسية ✓');
+});
+document.getElementById('cancel-basic').addEventListener('click', () => {
+  document.querySelector('.emp-hero-body').classList.remove('d-none');
+  document.getElementById('edit-zone-basic').classList.add('d-none');
 });
 
-/* ===================================================
-   الهامبرجر (الجوال)
-   =================================================== */
+/* ── تواريخ البطاقات ── */
+document.getElementById('btn-edit-expiry').addEventListener('click', () => {
+  document.getElementById('ei-work-date').value = DATA.workCardDate;
+  document.getElementById('ei-src-date').value  = DATA.srcCardDate;
+  openEdit('view-expiry', 'edit-zone-expiry');
+});
+document.getElementById('save-expiry').addEventListener('click', () => {
+  DATA.workCardDate = document.getElementById('ei-work-date').value;
+  DATA.srcCardDate  = document.getElementById('ei-src-date').value;
+  saveData(DATA);
+  closeEdit('view-expiry', 'edit-zone-expiry');
+  renderExpiry(); renderSummary();
+  showToast('تم حفظ تواريخ البطاقات ✓');
+});
+document.getElementById('cancel-expiry').addEventListener('click', () =>
+  closeEdit('view-expiry', 'edit-zone-expiry'));
+
+/* ── المناطق والمراكز ── */
+document.getElementById('btn-edit-region').addEventListener('click', () => {
+  document.getElementById('ei-region').value = DATA.region;
+  document.getElementById('ei-center').value = DATA.center;
+  openEdit('view-region', 'edit-zone-region');
+});
+document.getElementById('save-region').addEventListener('click', () => {
+  DATA.region = document.getElementById('ei-region').value.trim();
+  DATA.center = document.getElementById('ei-center').value.trim();
+  saveData(DATA);
+  closeEdit('view-region', 'edit-zone-region');
+  renderRegion(); renderSummary();
+  showToast('تم حفظ المنطقة والمركز ✓');
+});
+document.getElementById('cancel-region').addEventListener('click', () =>
+  closeEdit('view-region', 'edit-zone-region'));
+
+/* ── المقاسات ── */
+document.getElementById('btn-edit-sizes').addEventListener('click', () => {
+  buildSizesEdit();
+  openEdit('view-sizes', 'edit-zone-sizes');
+});
+document.getElementById('save-sizes').addEventListener('click', () => {
+  SIZES_ITEMS.forEach(item => {
+    DATA.sizes[item.key] = {
+      size:  document.getElementById('size-s-' + item.key)?.value.trim() || '',
+      count: document.getElementById('size-c-' + item.key)?.value.trim() || '',
+    };
+  });
+  saveData(DATA);
+  closeEdit('view-sizes', 'edit-zone-sizes');
+  renderSizes(); renderSummary();
+  showToast('تم حفظ المقاسات والعدد ✓');
+});
+document.getElementById('cancel-sizes').addEventListener('click', () =>
+  closeEdit('view-sizes', 'edit-zone-sizes'));
+
+/* ── أرصدة الاجازات ── */
+document.getElementById('btn-edit-leaves').addEventListener('click', () => {
+  buildLeavesEdit();
+  openEdit('view-leaves', 'edit-zone-leaves');
+});
+document.getElementById('save-leaves').addEventListener('click', () => {
+  LEAVES_DEF.forEach(l => {
+    DATA.leaves[l.key] = document.getElementById('ei-leave-' + l.key)?.value || '0';
+  });
+  saveData(DATA);
+  closeEdit('view-leaves', 'edit-zone-leaves');
+  renderLeaves(); renderSummary();
+  showToast('تم حفظ أرصدة الاجازات ✓');
+});
+document.getElementById('cancel-leaves').addEventListener('click', () =>
+  closeEdit('view-leaves', 'edit-zone-leaves'));
+
+/* ════════════════════════════════════════════════
+   5. Toast notification
+   ════════════════════════════════════════════════ */
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.className = 'toast-msg';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ════════════════════════════════════════════════
+   6. التنقل بين الأقسام
+   ════════════════════════════════════════════════ */
+function navigateTo(sectionId) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  const target = document.getElementById('section-' + sectionId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll(`.nav-link[data-section="${sectionId}"]`)
+    .forEach(a => a.classList.add('active'));
+  closeMobileNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.nav-link[data-section]').forEach(link =>
+  link.addEventListener('click', e => { e.preventDefault(); navigateTo(link.dataset.section); }));
+
+/* ════════════════════════════════════════════════
+   7. الهامبرجر
+   ════════════════════════════════════════════════ */
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobile-nav');
-
 function closeMobileNav() {
   mobileNav.classList.remove('open');
   hamburger.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
+  hamburger.setAttribute('aria-expanded','false');
 }
-
 hamburger.addEventListener('click', () => {
-  const isOpen = mobileNav.classList.toggle('open');
-  hamburger.classList.toggle('open', isOpen);
-  hamburger.setAttribute('aria-expanded', isOpen);
+  const open = mobileNav.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
 });
-
-/* إغلاق عند الضغط خارج القائمة */
 document.addEventListener('click', e => {
-  if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-    closeMobileNav();
-  }
+  if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) closeMobileNav();
 });
 
-/* ===================================================
-   تسجيل الخروج
-   =================================================== */
+/* ════════════════════════════════════════════════
+   8. تسجيل الخروج
+   ════════════════════════════════════════════════ */
 document.getElementById('logout-btn').addEventListener('click', () => Auth.logout());
 document.getElementById('mob-logout-btn').addEventListener('click', () => Auth.logout());
+
+/* ════════════════════════════════════════════════
+   9. التهيئة الأولية
+   ════════════════════════════════════════════════ */
+renderAll();
+
 </script>
 
 </body>
