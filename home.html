@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الصفحة الرئيسية — 4x4 إدارة الورديات</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="home-wrapper">
+
+  <!-- Header -->
+  <header class="home-header">
+    <div class="home-header-logo">
+      <span>⚙️</span>
+      <span>4x4 إدارة الورديات</span>
+    </div>
+    <div class="home-header-user">
+      <span id="header-name">...</span>
+      <div class="home-avatar" id="header-avatar">م</div>
+      <button class="btn btn-secondary" id="logout-btn"
+        style="height:38px; padding:0 16px; font-size:13px;">
+        خروج
+      </button>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="home-content">
+    <div class="home-card" style="text-align:center; padding: 60px 32px;">
+      <div style="font-size:56px; margin-bottom:16px;">🚧</div>
+      <h2 style="font-size:22px; margin-bottom:8px;">قيد الإنشاء</h2>
+      <p style="color:var(--text-muted); font-size:14px;">
+        سيتم إضافة محتوى الصفحة الرئيسية قريباً
+      </p>
+    </div>
+  </main>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  const user = Auth.requireAuth();
+  if (user) {
+    document.getElementById('header-name').textContent = user.name || '';
+    document.getElementById('header-avatar').textContent =
+      user.name ? user.name.trim().charAt(0) : 'م';
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    Auth.logout();
+  });
+</script>
+
+</body>
+</html>
